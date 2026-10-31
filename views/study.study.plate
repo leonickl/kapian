@@ -11,3 +11,13 @@
         <a href="{{ route('study.bury', progress: $progress) }}" class="btn secondary">Bury</a>
     </div>
 </div>
+
+<style>
+    body {
+        height: 90vh;
+    }
+
+    main {
+        height: 100%;
+    }
+</style>

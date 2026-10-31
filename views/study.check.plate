@@ -15,3 +15,13 @@
         <a href="{{ route('study.result', progress: $progress, result: 'wrong') }}" class="btn warn">Wrong</a>
     </div>
 </div>
+
+<style>
+    body {
+        height: 90vh;
+    }
+
+    main {
+        height: 100%;
+    }
+</style>
