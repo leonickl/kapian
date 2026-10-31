@@ -5,8 +5,8 @@ use PXP\Auth\Models\User;
 
 return [
     'title' => 'Kǎpiàn',
-    'app-url' => env('APP_URL', 'http://localhost:8087'),
-    'port' => 8087,
+    'app-url' => env('APP_URL', 'http://localhost:8093'),
+    'port' => env('APP_PORT', 8093),
 
     'css' => [
         'media',
