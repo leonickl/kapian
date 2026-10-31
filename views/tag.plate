@@ -1,6 +1,22 @@
 {{ plug: 'head', title: "#$tag->label", links: ['main' => 'Home'] }}
 
-<div class="overflow-x-auto">
+<div class="mb">
+    <h2>Members</h2>
+
+    <div class="people row">
+        {{ each: $people as $person }}
+            <form action="{{ route('tags.share', tagId: $tag->id, recipientId: $person->id) }}" method="post">
+                <input type="submit"
+                    class="btn secondary {{ $tag->isSharedWith($person) ? 'glowing' : '' }}"
+                    value="{{ $person->name }}" />
+            </form>
+        {{ each; }}
+    </div>
+</div>
+
+<div class="overflow-x-auto mt">
+    <h2>Vocabs</h2>
+
     <table class="styled w-full quotes">
         <thead>
             <tr>
@@ -23,3 +39,13 @@
         </tbody>
     </table>
 </div>
+
+<style>
+    .glowing {
+        border: 3px #54d5ff solid;
+    }
+
+    .people > form {
+        display: flex;
+    }
+</style>

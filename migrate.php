@@ -55,3 +55,11 @@ $db->create('tag_vocab', [
 
 $db->sql('create unique index if not exists '.
     'unique_tag_vocab on tag_vocab(vocab_id, tag_id)');
+
+$db->create('tag_shares', [
+    'tag_id' => 'int not null references tags(id)',
+    'recipient_id' => 'int not null references users(id)',
+]);
+
+$db->sql('create unique index if not exists '.
+    'unique_tag_shares on tag_shares(tag_id, recipient_id)');

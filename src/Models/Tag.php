@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use PXP\Data\DB;
 use PXP\Data\Model;
 use PXP\Ds\Vector;
+use PXP\Auth\Models\User;
 
 /**
  * @property-read int $id
@@ -76,5 +77,22 @@ class Tag extends Model
         $vocabs = DB::init()->select($sql, [$this->id]);
 
         return Vocab::map($vocabs);
+    }
+
+    public function isShareable(): bool
+    {
+        return $this->owner_id === user()->id;
+    }
+
+    public function shares(): Vector
+    {
+        return TagShare::findAllBy('tag_id', $this->id);
+    }
+
+    public function isSharedWith(User $user): bool
+    {
+        return $this->shares()
+            ->filter(fn (TagShare $share) => $share->recipient_id === $user->id)
+            ->count() > 0;
     }
 }
