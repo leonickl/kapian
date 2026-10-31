@@ -18,9 +18,9 @@ Route::group(
     Route::get('/vocabs/create')->do(VocabController::class, 'create')->name('vocabs.create'),
     Route::post('/vocabs')->do(VocabController::class, 'store'),
 
-    Route::get('/tagsl')->do(TagController::class, 'index')->name('tags'),
-    Route::get('/tagsl/{tagId}')->do(TagController::class, 'show')->name('tags.show'),
-    Route::post('/tagsl/{tagId}/share/{recipientId}')->do(TagController::class, 'share')->name('tags.share'),
+    Route::get('/tags')->do(TagController::class, 'index')->name('tags'),
+    Route::get('/tags/{tagId}')->do(TagController::class, 'show')->name('tags.show'),
+    Route::post('/tags/{tagId}/share/{recipientId}')->do(TagController::class, 'share')->name('tags.share'),
 
     Route::get('/study')->do(StudyController::class, 'index')->name('study'),
     Route::get('/study/{progress}/study')->do(StudyController::class, 'study')->name('study.study'),

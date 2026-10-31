@@ -18,6 +18,37 @@ class Vocab extends Model
 {
     protected string $table = 'vocabs';
 
+    public static function allVisible()
+    {
+        $vocabs = DB::init()->select(<<<'SQL'
+            select * from (
+                select vocabs.*
+                    from vocabs
+                inner join tag_vocab
+                    on tag_vocab.vocab_id = vocabs.id
+                inner join tag_shares
+                    on tag_vocab.tag_id = tag_shares.tag_id
+                where tag_shares.recipient_id = :user_id
+                    and vocabs.deleted_at is null
+                    and tag_vocab.deleted_at is null
+                    and tag_shares.deleted_at is null
+
+                union
+
+                select *
+                from vocabs
+                where author_id = :user_id
+                    and deleted_at is null
+            ) as voc
+            
+            order by id desc;
+            SQL,
+            ['user_id' => user()->id],
+        );
+        
+        return self::map($vocabs);
+    }
+
     /**
      * @return Vector<Tag>
      */

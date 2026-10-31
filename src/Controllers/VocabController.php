@@ -14,9 +14,7 @@ class VocabController extends Controller
     public function index(): View
     {
         return view('vocabs', [
-            'vocabs' => Vocab::select()
-                ->whereIs('author_id', user()->id)
-                ->get(),
+            'vocabs' => Vocab::allVisible(),
         ]);
     }
 

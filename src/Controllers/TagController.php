@@ -16,16 +16,26 @@ class TagController extends Controller
     public function index()
     {
         return view('tags', [
-            'tags' => Tag::forUser(user()->id),
+            'tags' => Tag::allVisible(),
         ]);
     }
 
     public function show(int $tagId)
     {
+        $tag = Tag::find($tagId);
+
+        if (! $tag->isShowable()) {
+            Notification::warn('You cannot view this tag.');
+
+            return Redirect::route('tags');
+        }
+
         return view('tag', [
-            'tag' => Tag::find($tagId),
-            'people' => User::all(['id', 'name'])
-                ->filter(fn ($user) => $user->id !== user()->id),
+            'tag' => $tag,
+            'people' => $tag->isShareable()
+                ? User::all(['id', 'name'])
+                    ->filter(fn ($user) => $user->id !== user()->id)
+                    : [],
         ]);
     }
 
@@ -47,8 +57,8 @@ class TagController extends Controller
         }
 
         $existing = TagShare::select()
-            ->where('tag_id', '=', $tag->id)
-            ->where('recipient_id', '=', $recipient->id)
+            ->whereIs('tag_id', $tag->id)
+            ->whereIs('recipient_id', $recipient->id)
             ->deleted()
             ->get();
 

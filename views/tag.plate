@@ -1,18 +1,20 @@
 {{ plug: 'head', title: "#$tag->label", links: ['main' => 'Home'] }}
 
-<div class="mb">
-    <h2>Members</h2>
+{{ if: $tag->isShareable() }}
+    <div class="mb">
+        <h2>Members</h2>
 
-    <div class="people row">
-        {{ each: $people as $person }}
-            <form action="{{ route('tags.share', tagId: $tag->id, recipientId: $person->id) }}" method="post">
-                <input type="submit"
-                    class="btn secondary {{ $tag->isSharedWith($person) ? 'glowing' : '' }}"
-                    value="{{ $person->name }}" />
-            </form>
-        {{ each; }}
+        <div class="people row">
+            {{ each: $people as $person }}
+                <form action="{{ route('tags.share', tagId: $tag->id, recipientId: $person->id) }}" method="post">
+                    <input type="submit"
+                        class="btn secondary {{ $tag->isSharedWith($person) ? 'glowing' : '' }}"
+                        value="{{ $person->name }}" />
+                </form>
+            {{ each; }}
+        </div>
     </div>
-</div>
+{{ if; }}
 
 <div class="overflow-x-auto mt">
     <h2>Vocabs</h2>

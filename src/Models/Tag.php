@@ -17,6 +17,27 @@ class Tag extends Model
 {
     protected string $table = 'tags';
 
+    public static function allVisible()
+    {
+        $shared = DB::init()->select(<<<'SQL'
+            select tags.*
+                from tags
+            inner join tag_shares
+                on tags.id = tag_shares.tag_id
+            where tag_shares.recipient_id = ?
+                and tag_shares.deleted_at is null
+                and tags.deleted_at is null;
+            SQL,
+            [user()->id],
+        );
+
+        return v(
+            ...self::map($shared),
+            ...self::forUser(user()->id),
+        )
+            ->sort(fn ($one, $other) => $one->label <=> $other->label);
+    }
+
     /**
      * @return Vector<Tag>
      */
@@ -82,6 +103,16 @@ class Tag extends Model
     public function isShareable(): bool
     {
         return $this->owner_id === user()->id;
+    }
+
+    public function isShowable(): bool
+    {
+        return $this->owner_id === user()->id
+            || TagShare::select()
+                ->whereIs('tag_id', $this->id)
+                ->whereIs('recipient_id', user()->id)
+                ->get()
+                ->count() > 0;
     }
 
     public function shares(): Vector
