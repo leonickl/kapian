@@ -1,0 +1,25 @@
+{{ plug: 'head', title: "#$tag->label", links: ['main' => 'Home'] }}
+
+<div class="overflow-x-auto">
+    <table class="styled w-full quotes">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Hanzi</th>
+                <th>Pinyin</th>
+                <th>Translation</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{ each: $tag->vocabs() as $vocab }}
+                <tr>
+                    <td class="td-id">{{ $vocab->id }}</td>
+                    <td class="td-hanzi">{{ $vocab->hanzi }}</td>
+                    <td class="td-pinyin">{{ $vocab->pinyin }}</td>
+                    <td class="td-translation">{{ $vocab->translation }}</td>
+                </tr>
+            {{ each; }}
+        </tbody>
+    </table>
+</div>

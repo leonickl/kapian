@@ -1,0 +1,7 @@
+{{ plug: 'head', title: 'Tags', links: ['main' => 'Home'] }}
+
+<div class="row" style="flex-wrap: wrap">
+    {{ each: $tags as $tag }}
+        <a href="{{ route('tags.show', id: $tag->id) }}">#{{ $tag->label }}</a>
+    {{ each; }}
+</div>

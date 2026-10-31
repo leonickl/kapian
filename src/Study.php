@@ -48,6 +48,7 @@ class Study
             left join progresses on cards.vocab_id = progresses.vocab_id
                 and cards.direction = progresses.direction
                 and progresses.user_id = :user_id
+                and progresses.deleted_at is null
 
             where front is not null and front is not ''
                 and progress = :progress;

@@ -5,6 +5,7 @@ namespace App\Models;
 use InvalidArgumentException;
 use PXP\Data\Model;
 use PXP\Ds\Vector;
+use PXP\Data\DB;
 
 /**
  * @property-read int $id
@@ -58,5 +59,22 @@ class Tag extends Model
     public static function normalize(string $label): string
     {
         return trim(preg_replace('/\s+/u', ' ', $label) ?? $label);
+    }
+
+    public function vocabs(): Vector
+    {
+        $sql = <<<'SQL'
+            select vocabs.*
+            from vocabs
+            inner join tag_vocab
+            on tag_vocab.vocab_id = vocabs.id
+            where tag_vocab.tag_id = ?
+            and vocabs.deleted_at is null
+            and tag_vocab.deleted_at is null;
+            SQL;
+
+        $vocabs = DB::init()->select($sql, [$this->id]);
+
+        return Vocab::map($vocabs);
     }
 }

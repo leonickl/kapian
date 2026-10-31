@@ -3,6 +3,7 @@
 use App\Controllers\MainController;
 use App\Controllers\StudyController;
 use App\Controllers\VocabController;
+use App\Controllers\TagController;
 use PXP\Auth\Controllers\LoginController;
 use PXP\Auth\Controllers\VerificationController;
 use PXP\Auth\Middleware\InteractiveAuth;
@@ -16,7 +17,11 @@ Route::group(
     Route::get('/vocabs')->do(VocabController::class, 'index')->name('vocabs'),
     Route::get('/vocabs/create')->do(VocabController::class, 'create')->name('vocabs.create'),
     Route::post('/vocabs')->do(VocabController::class, 'store'),
-    
+
+    Route::get('/tag')->do(TagController::class, 'index')->name('tags'),
+    Route::get('/tag/{id}')->do(TagController::class, 'show')->name('tags.show'),
+    Route::post('/tag/{id}/share')->do(TagController::class, 'share')->name('tags.share'),
+
     Route::get('/study')->do(StudyController::class, 'index')->name('study'),
     Route::get('/study/{progress}/study')->do(StudyController::class, 'study')->name('study.study'),
     Route::get('/study/{progress}/check')->do(StudyController::class, 'check')->name('study.check'),
