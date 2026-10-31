@@ -1,0 +1,30 @@
+name: Static Analysis
+
+on: [push]
+
+jobs:
+    phpstan:
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: true
+
+            matrix:
+                php: ['8.5']
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions: pdo, sqlite3, json, dom, curl, libxml, mbstring
+                  coverage: none
+
+            - name: Install dependencies
+              run: composer install --no-interaction --no-progress
+
+            - name: Run PHPStan
+              run: vendor/bin/phpstan analyse --error-format=raw

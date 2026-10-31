@@ -1,0 +1,11 @@
+<div class="row wrap between">
+    <h1>{{ $title }}</h1>
+
+    <div>
+        <div class="row wrap mb">
+            {{ each: $links ?? [] as $url => $label }}
+                <a href="{{ route($url) }}" class="btn">{{ $label }}</a>
+            {{ each; }}
+        </div>
+    </div>
+</div>

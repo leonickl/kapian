@@ -1,0 +1,7 @@
+{{ plug: 'head', title: 'Chinese Trainer' }}
+
+<div class="column">
+    <a href="{{ route('study') }}" class="btn">Study</a>
+    <a href="{{ route('vocabs') }}" class="btn secondary">Vocabs</a>
+    <a href="{{ route('logout') }}" class="btn warn">Logout</a>
+</div>

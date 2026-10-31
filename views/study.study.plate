@@ -1,0 +1,13 @@
+{{ plug: 'head', title: "Study $title", links: ['main' => 'Home'] }}
+
+<div class="flashcard">
+    <div class="hanzi">
+        {{ $card->front }}
+    </div>
+
+    <div class="row between">
+        <a href="{{ route('study.check', progress: $progress) }}" class="btn">Check</a>
+        <a href="{{ route('study.study', progress: $progress) }}" class="btn secondary">Skip</a>
+        <a href="{{ route('study.bury', progress: $progress) }}" class="btn secondary">Bury</a>
+    </div>
+</div>

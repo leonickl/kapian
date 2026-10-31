@@ -1,0 +1,31 @@
+{{ plug: 'head', title: 'Vocabs', links: ['main' => 'Home', 'vocabs.create' => 'New'] }}
+
+<div class="overflow-x-auto">
+    <table class="styled w-full quotes">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Hanzi</th>
+                <th>Pinyin</th>
+                <th>Translation</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{ each: $vocabs as $vocab }}
+                <tr>
+                    <td class="td-id">{{ $vocab->id }}</td>
+                    <td class="td-hanzi">{{ $vocab->hanzi }}</td>
+                    <td class="td-pinyin">{{ $vocab->pinyin }}</td>
+                    <td class="td-translation">{{ $vocab->translation }}</td>
+                    <td class="td-tags">
+                        {{ each: $vocab->tags() as $tag }}
+                            <span>#{{ $tag->label }}</span>
+                        {{ each; }}
+                    </td>
+                </tr>
+            {{ each; }}
+        </tbody>
+    </table>
+</div>

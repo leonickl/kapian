@@ -1,0 +1,28 @@
+.flashcard {
+    background-color: #ffe79a;
+    color: navy;
+
+    width: min(100%, 400px);
+    height: 200px;
+
+    padding: 1rem;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    position: relative;
+    left: 50%;
+    translate: -50% 0;
+}
+
+.flashcard hr {
+    margin-block: 1rem;
+    border-color: navy;
+    opacity: .3;
+}
+
+.flashcard .hanzi {
+    
+}

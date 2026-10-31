@@ -1,0 +1,9 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - index.php
+        - config.php
+        - routes.php
+        - migrate.php
+        - playground.php

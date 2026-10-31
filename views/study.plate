@@ -1,0 +1,9 @@
+{{ plug: 'head', title: 'Study', links: ['main' => 'Home'] }}
+
+<div class="column">
+    <a href="{{ route('study.study', progress: -1) }}" class="btn secondary">Buried</a>
+
+    {{ each: $progresses as $progress }}
+        <a href="{{ route('study.study', progress: $progress) }}" class="btn">{{ $title($progress) }}</a>
+    {{ each; }}
+</div>

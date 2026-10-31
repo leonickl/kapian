@@ -1,0 +1,386 @@
+{{ plug: 'head', title: 'New Vocab', links: ['main' => 'Home'] }}
+
+<form action="{{ route('vocabs') }}" method="post">
+    <div>
+        <label for="hanzi">Hanzi</label>
+        <input type="text" name="hanzi" id="hanzi" />
+    </div>
+
+    <div>
+        <label for="pinyin">Pinyin</label>
+        <input type="text" name="pinyin" id="pinyin" />
+    </div>
+
+    <div>
+        <label for="translation">Translation</label>
+        <input type="text" name="translation" id="translation" />
+    </div>
+
+    <div>
+        <label for="tag-input">Tags</label>
+
+        <div class="tag-select" id="tag-select">
+            <div class="tag-chips" id="tag-chips"></div>
+
+            <input
+                type="text"
+                id="tag-input"
+                placeholder="Type to search or add a tag..."
+                autocomplete="off"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-controls="tag-suggestions"
+                aria-expanded="false"
+            />
+
+            <ul class="tag-suggestions hidden" id="tag-suggestions" role="listbox"></ul>
+        </div>
+
+        <div id="tag-hidden-inputs"></div>
+    </div>
+
+    <div class="mt row">
+        <input type="submit" class="btn" name="next-create" value="Save & create another" />
+        <input type="submit" class="btn" name="next-index" value="Save & go back" />
+    </div>
+</form>
+
+<style>
+    .tag-select {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.35rem;
+        min-height: 2.65rem;
+        padding: 0.35rem 0.5rem;
+        border: 1px solid var(--card-border);
+        border-radius: 6px;
+        background: var(--main-background);
+        color: var(--color);
+        cursor: text;
+    }
+
+    .tag-select:focus-within {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    }
+
+    .tag-chips {
+        display: contents;
+    }
+
+    .tag-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.1rem 0.5rem 0.1rem 0.65rem;
+        border-radius: 999px;
+        background: var(--primary);
+        color: #fff;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .tag-remove {
+        padding: 0;
+        border: 0;
+        background: none;
+        color: inherit;
+        font-size: 1.1rem;
+        line-height: 1;
+        cursor: pointer;
+        opacity: 0.8;
+    }
+
+    .tag-remove:hover,
+    .tag-remove:focus-visible {
+        opacity: 1;
+    }
+
+    #tag-input {
+        flex: 1 1 8rem;
+        width: auto;
+        min-width: 8rem;
+        padding: 0.2rem;
+        border: 0;
+        background: transparent;
+        color: inherit;
+    }
+
+    #tag-input:focus {
+        outline: none;
+    }
+
+    .tag-suggestions {
+        position: absolute;
+        top: calc(100% + 0.25rem);
+        left: 0;
+        right: 0;
+        z-index: 10;
+        max-height: 12rem;
+        overflow-y: auto;
+        margin: 0;
+        padding: 0.25rem;
+        list-style: none;
+        border: 1px solid var(--card-border);
+        border-radius: 6px;
+        background: var(--main-background);
+        box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .tag-suggestions.hidden {
+        display: none;
+    }
+
+    .tag-suggestion {
+        padding: 0.35rem 0.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .tag-suggestion:hover,
+    .tag-suggestion.active {
+        background: var(--primary);
+        color: #fff;
+    }
+
+    .tag-suggestion.create {
+        color: var(--text-light);
+    }
+
+    .tag-suggestion.create:hover,
+    .tag-suggestion.create.active {
+        color: #fff;
+    }
+</style>
+
+<script type="module">
+    const availableTags = {{ json: $tags ?? [], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT }};
+    const previousTags = {{ json: $previousTags ?? [], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT }};
+
+    console.log(availableTags, previousTags);
+
+    const select = document.querySelector('#tag-select');
+    const input = document.querySelector('#tag-input');
+    const chips = document.querySelector('#tag-chips');
+    const suggestions = document.querySelector('#tag-suggestions');
+    const hiddenInputs = document.querySelector('#tag-hidden-inputs');
+    const form = select.closest('form');
+
+    const selected = [];
+    let options = [];
+    let activeIndex = -1;
+
+    const normalize = value => value.trim().replace(/\s+/g, ' ');
+
+    const hasTag = tag => selected.some(
+        selectedTag => selectedTag.toLowerCase() === tag.toLowerCase(),
+    );
+
+    previousTags.forEach(tag => {
+        if (typeof tag !== 'string') {
+            return;
+        }
+
+        const value = normalize(tag);
+
+        if (value && !hasTag(value)) {
+            selected.push(value);
+        }
+    });
+
+    const hideSuggestions = () => {
+        suggestions.classList.add('hidden');
+        input.setAttribute('aria-expanded', 'false');
+        activeIndex = -1;
+    };
+
+    const addTag = value => {
+        const tag = normalize(value);
+
+        if (tag && !hasTag(tag)) {
+            selected.push(tag);
+        }
+
+        input.value = '';
+        render();
+        input.focus();
+    };
+
+    const removeTag = tag => {
+        const index = selected.indexOf(tag);
+
+        if (index !== -1) {
+            selected.splice(index, 1);
+        }
+
+        render();
+        input.focus();
+    };
+
+    const render = () => {
+        chips.replaceChildren(...selected.map(tag => {
+            const chip = document.createElement('span');
+            chip.className = 'tag-chip';
+
+            const label = document.createElement('span');
+            label.textContent = tag;
+
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'tag-remove';
+            remove.textContent = '×';
+            remove.title = `Remove ${tag}`;
+            remove.setAttribute('aria-label', `Remove tag ${tag}`);
+            remove.addEventListener('click', () => removeTag(tag));
+
+            chip.append(label, remove);
+
+            return chip;
+        }));
+
+        hiddenInputs.replaceChildren(...selected.map(tag => {
+            const field = document.createElement('input');
+            field.type = 'hidden';
+            field.name = 'tags[]';
+            field.value = tag;
+
+            return field;
+        }));
+
+        updateSuggestions();
+    };
+
+    const updateSuggestions = () => {
+        const query = normalize(input.value);
+        const lowerQuery = query.toLowerCase();
+
+        const matching = availableTags
+            .filter(tag => typeof tag === 'string' && !hasTag(tag))
+            .filter(tag => tag.toLowerCase().includes(lowerQuery))
+            .sort((a, b) => {
+                const aStarts = a.toLowerCase().startsWith(lowerQuery);
+                const bStarts = b.toLowerCase().startsWith(lowerQuery);
+
+                return aStarts === bStarts
+                    ? a.localeCompare(b)
+                    : (aStarts ? -1 : 1);
+            });
+
+        options = matching.map(tag => ({ tag, create: false }));
+
+        if (query
+            && !hasTag(query)
+            && !matching.some(tag => tag.toLowerCase() === lowerQuery)) {
+            options.push({ tag: query, create: true });
+        }
+
+        if (activeIndex >= options.length) {
+            activeIndex = options.length - 1;
+        }
+
+        suggestions.replaceChildren(...options.map((option, index) => {
+            const item = document.createElement('li');
+            item.className = 'tag-suggestion'
+                + (option.create ? ' create' : '')
+                + (index === activeIndex ? ' active' : '');
+            item.setAttribute('role', 'option');
+            item.setAttribute('aria-selected', String(index === activeIndex));
+            item.textContent = option.create ? `Add "${option.tag}"` : option.tag;
+            item.addEventListener('mousedown', event => event.preventDefault());
+            item.addEventListener('click', () => addTag(option.tag));
+
+            return item;
+        }));
+
+        const open = options.length > 0
+            && (document.activeElement === input || query !== '');
+
+        suggestions.classList.toggle('hidden', !open);
+        input.setAttribute('aria-expanded', String(open));
+
+        suggestions.querySelector('.tag-suggestion.active')
+            ?.scrollIntoView({ block: 'nearest' });
+    };
+
+    input.addEventListener('input', () => {
+        activeIndex = -1;
+        updateSuggestions();
+    });
+
+    input.addEventListener('focus', updateSuggestions);
+
+    input.addEventListener('keydown', event => {
+        if (event.key === 'ArrowDown' && options.length > 0) {
+            event.preventDefault();
+            activeIndex = (activeIndex + 1) % options.length;
+            updateSuggestions();
+
+            return;
+        }
+
+        if (event.key === 'ArrowUp' && options.length > 0) {
+            event.preventDefault();
+            activeIndex = activeIndex <= 0 ? options.length - 1 : activeIndex - 1;
+            updateSuggestions();
+
+            return;
+        }
+
+        if (event.key === 'Enter') {
+            const option = options[activeIndex];
+
+            if (option) {
+                event.preventDefault();
+                addTag(option.tag);
+            } else if (normalize(input.value)) {
+                event.preventDefault();
+                addTag(input.value);
+            }
+
+            return;
+        }
+
+        if (event.key === 'Escape') {
+            hideSuggestions();
+
+            return;
+        }
+
+        if (event.key === 'Backspace' && input.value === '' && selected.length > 0) {
+            event.preventDefault();
+            removeTag(selected[selected.length - 1]);
+
+            return;
+        }
+
+        if (event.key === ',') {
+            event.preventDefault();
+            addTag(input.value);
+        }
+    });
+
+    select.addEventListener('click', event => {
+        if (event.target === select || event.target === chips) {
+            input.focus();
+        }
+    });
+
+    select.addEventListener('focusout', () => {
+        window.setTimeout(() => {
+            if (!select.contains(document.activeElement)) {
+                hideSuggestions();
+            }
+        });
+    });
+
+    form.addEventListener('submit', () => {
+        if (normalize(input.value)) {
+            addTag(input.value);
+        }
+    });
+
+    render();
+</script>
