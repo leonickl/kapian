@@ -20,7 +20,9 @@ class StudyController extends Controller
             ->order('progress')
             ->get()
             ->map(fn ($record) => $record->progress)
-            ->unique();
+            ->with(0)
+            ->unique()
+            ->sort(fn (int $one, int $other) => $one <=> $other);
 
         return view('study', [
             'title' => $this->title(...),

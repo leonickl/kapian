@@ -18,9 +18,9 @@ class Study
                     hanzi as front,
                     pinyin as back_top,
                     translation as back_bottom
-                from vocabs
+                from visible_vocabs
                     where deleted_at is null
-                    and author_id = :user_id
+                    and user_id = :user_id
 
                 union
 
@@ -29,9 +29,9 @@ class Study
                     pinyin as front,
                     hanzi as back_top,
                     translation as back_bottom
-                from vocabs
+                from visible_vocabs
                     where deleted_at is null
-                    and author_id = :user_id
+                    and user_id = :user_id
 
                 union
 
@@ -40,9 +40,9 @@ class Study
                     translation as front,
                     pinyin as back_top,
                     hanzi as back_bottom
-                from vocabs
+                from visible_vocabs
                     where deleted_at is null
-                    and author_id = :user_id
+                    and user_id = :user_id
             ) as cards
 
             left join progresses on cards.vocab_id = progresses.vocab_id
@@ -51,7 +51,7 @@ class Study
                 and progresses.deleted_at is null
 
             where front is not null and front is not ''
-                and progress = :progress;
+                and coalesce(progress, 0) = cast(:progress as integer);
         SQL;
 
         $cards = DB::init()->select($sql, [
