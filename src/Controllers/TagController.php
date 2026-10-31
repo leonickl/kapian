@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use PXP\Http\Controllers\Controller;
 use App\Models\Tag;
+use PXP\Http\Controllers\Controller;
 
 class TagController extends Controller
 {

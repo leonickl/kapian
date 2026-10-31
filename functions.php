@@ -1,7 +1,7 @@
 <?php
 
-use PXP\Auth\Models\User;
 use PXP\Auth\Auth;
+use PXP\Auth\Models\User;
 
 function user(): User
 {

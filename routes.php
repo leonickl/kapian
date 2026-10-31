@@ -2,8 +2,8 @@
 
 use App\Controllers\MainController;
 use App\Controllers\StudyController;
-use App\Controllers\VocabController;
 use App\Controllers\TagController;
+use App\Controllers\VocabController;
 use PXP\Auth\Controllers\LoginController;
 use PXP\Auth\Controllers\VerificationController;
 use PXP\Auth\Middleware\InteractiveAuth;

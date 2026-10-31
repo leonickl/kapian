@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use InvalidArgumentException;
+use PXP\Data\DB;
 use PXP\Data\Model;
 use PXP\Ds\Vector;
-use PXP\Data\DB;
 
 /**
  * @property-read int $id

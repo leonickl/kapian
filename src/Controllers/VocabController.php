@@ -4,12 +4,10 @@ namespace App\Controllers;
 
 use App\Models\Tag;
 use App\Models\Vocab;
-use PXP\Auth\Auth;
 use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Redirect;
 use PXP\Http\Response\View;
 use PXP\Lib\Notification;
-use RuntimeException;
 
 class VocabController extends Controller
 {

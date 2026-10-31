@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use PXP\Data\Model;
 use App\Card;
 use PXP\Auth\Models\User;
+use PXP\Data\Model;
 
 /**
  * @property-read int $id

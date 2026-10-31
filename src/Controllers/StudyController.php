@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use PXP\Http\Controllers\Controller;
-use PXP\Auth\Auth;
-use App\Study;
 use App\Models\Progress;
+use App\Study;
 use InvalidArgumentException;
-use PXP\Lib\Notification;
+use PXP\Auth\Auth;
+use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Redirect;
+use PXP\Lib\Notification;
 
 class StudyController extends Controller
 {
@@ -70,7 +70,7 @@ class StudyController extends Controller
             ->save();
 
         $summary = $card->vocab()->summary();
-        
+
         Notification::success("Buried card '$card->direction' from vocab '$summary'.");
 
         return Redirect::path(route('study.study', progress: $progress));
@@ -78,7 +78,7 @@ class StudyController extends Controller
 
     public function result(int $progress, string $result)
     {
-        $delta = match($result) {
+        $delta = match ($result) {
             'correct' => 1,
             'wrong' => -1,
             'again' => 0,
@@ -94,7 +94,7 @@ class StudyController extends Controller
 
         $summary = $card->vocab()->summary();
 
-        match($result) {
+        match ($result) {
             'correct' => Notification::success("Promoted card '$card->direction' from vocab '$summary'"),
             'wrong' => Notification::warn("Demoted card '$card->direction' from vocab '$summary'"),
             'again' => Notification::info("Retained card '$card->direction' from vocab '$summary'"),
@@ -111,7 +111,7 @@ class StudyController extends Controller
         }
 
         if ($progress === -1) {
-            return "Buried";
+            return 'Buried';
         }
 
         return "Basement $progress";
