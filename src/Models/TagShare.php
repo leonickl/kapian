@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use PXP\Data\Model;
 use PXP\Auth\Models\User;
+use PXP\Data\Model;
 
 /**
  * @property-read int $id

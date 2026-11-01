@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use InvalidArgumentException;
+use PXP\Auth\Models\User;
 use PXP\Data\DB;
 use PXP\Data\Model;
 use PXP\Ds\Vector;
-use PXP\Auth\Models\User;
 
 /**
  * @property-read int $id

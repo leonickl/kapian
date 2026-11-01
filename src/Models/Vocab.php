@@ -22,7 +22,7 @@ class Vocab extends Model
     {
         $vocabs = DB::init()->select('select * from visible_vocabs '
             .'where user_id = ? order by id desc', [user()->id]);
-        
+
         return self::map($vocabs);
     }
 
