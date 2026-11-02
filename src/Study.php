@@ -4,6 +4,7 @@ namespace App;
 
 use PXP\Auth\Models\User;
 use PXP\Data\DB;
+use PXP\Ds\Vector;
 
 class Study
 {
@@ -11,66 +12,31 @@ class Study
 
     public function next(): ?Card
     {
-        $sql = <<<'SQL'
-            select cards.vocab_id,
-                cards.direction,
-                cards.hanzi,
-                cards.pinyin,
-                cards.translation
-            from (
-                select id as vocab_id,
-                    'hanzi' as direction,
-                    hanzi as front,
-                    hanzi,
-                    pinyin,
-                    translation
-                from visible_vocabs
-                    where deleted_at is null
-                    and user_id = :user_id
-
-                union
-
-                select id as vocab_id,
-                    'pinyin' as direction,
-                    pinyin as front,
-                    hanzi,
-                    pinyin,
-                    translation
-                from visible_vocabs
-                    where deleted_at is null
-                    and user_id = :user_id
-
-                union
-
-                select id as vocab_id,
-                    'translation' as direction,
-                    translation as front,
-                    hanzi,
-                    pinyin,
-                    translation
-                from visible_vocabs
-                    where deleted_at is null
-                    and user_id = :user_id
-            ) as cards
-
-            left join progresses on cards.vocab_id = progresses.vocab_id
-                and cards.direction = progresses.direction
-                and progresses.user_id = :user_id
-                and progresses.deleted_at is null
-
-            where front is not null and front is not ''
-                and coalesce(progress, 0) = cast(:progress as integer);
-        SQL;
-
-        $cards = DB::init()->select($sql, [
-            'user_id' => $this->user->id,
-            'progress' => $this->progress,
-        ]);
+        $cards = $this->cards();
 
         if ($cards->count() === 0) {
             return null;
         }
 
         return new Card(...(array) $cards->sample()->first());
+    }
+
+    public function cards(): Vector
+    {
+        $sql = <<<'SQL'
+            select vocab_id,
+                direction,
+                hanzi,
+                pinyin,
+                translation
+            from cards
+            where cards.user_id = :user_id
+                and progress = cast(:progress as int);
+        SQL;
+
+        return DB::init()->select($sql, [
+            'user_id' => $this->user->id,
+            'progress' => $this->progress,
+        ]);
     }
 }

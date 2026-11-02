@@ -66,19 +66,75 @@ $db->sql('create unique index if not exists '.
 
 $db->sql(<<<'SQL'
     create view if not exists visible_vocabs as
-        select vocabs.*, tag_shares.recipient_id as user_id
-            from vocabs
-        inner join tag_vocab
-            on tag_vocab.vocab_id = vocabs.id
-        inner join tag_shares
-            on tag_vocab.tag_id = tag_shares.tag_id
-        where vocabs.deleted_at is null
-            and tag_vocab.deleted_at is null
-            and tag_shares.deleted_at is null
+
+    select vocabs.*, tag_shares.recipient_id as user_id
+        from vocabs
+    inner join tag_vocab
+        on tag_vocab.vocab_id = vocabs.id
+    inner join tag_shares
+        on tag_vocab.tag_id = tag_shares.tag_id
+    where vocabs.deleted_at is null
+        and tag_vocab.deleted_at is null
+        and tag_shares.deleted_at is null
+
+    union
+
+    select *, author_id as user_id
+    from vocabs
+    where deleted_at is null
+    SQL);
+
+$db->sql(<<<'SQL'
+    create view if not exists cards as
+
+    select cards.vocab_id,
+        cards.direction,
+        cards.hanzi,
+        cards.pinyin,
+        cards.translation,
+        cards.user_id,
+        coalesce(progresses.progress, 0) as progress
+    from (
+        select id as vocab_id,
+            'hanzi' as direction,
+            hanzi as front,
+            hanzi,
+            pinyin,
+            translation,
+            deleted_at,
+            user_id
+        from visible_vocabs
 
         union
 
-        select *, author_id as user_id
-        from vocabs
-        where deleted_at is null
+        select id as vocab_id,
+            'pinyin' as direction,
+            pinyin as front,
+            hanzi,
+            pinyin,
+            translation,
+            deleted_at,
+            user_id
+        from visible_vocabs
+
+        union
+
+        select id as vocab_id,
+            'translation' as direction,
+            translation as front,
+            hanzi,
+            pinyin,
+            translation,
+            deleted_at,
+            user_id
+        from visible_vocabs
+    ) as cards
+
+    left join progresses on cards.vocab_id = progresses.vocab_id
+        and progresses.user_id = cards.user_id
+        and cards.direction = progresses.direction
+        and progresses.deleted_at is null
+
+    where cards.deleted_at is null
+        and front is not null and front is not '';
     SQL);

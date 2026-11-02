@@ -14,19 +14,9 @@ class StudyController extends Controller
 {
     public function index()
     {
-        $progresses = Progress::select('progress')
-            ->where('progress', 'is not', -1)
-            ->whereIs('user_id', user()->id)
-            ->order('progress')
-            ->get()
-            ->map(fn ($record) => $record->progress)
-            ->with(0)
-            ->unique()
-            ->sort(fn (int $one, int $other) => $one <=> $other);
-
         return view('study', [
             'title' => $this->title(...),
-            'progresses' => $progresses,
+            'progresses' => Progress::forUser(user()),
         ]);
     }
 
