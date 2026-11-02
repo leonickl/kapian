@@ -1,19 +1,19 @@
-{{ plug: 'head', title: 'New Vocab', links: ['main' => 'Home'] }}
+{{ plug: 'head', title: $vocab ? 'Edit Vocab' : 'New Vocab', links: ['main' => 'Home'] }}
 
-<form action="{{ route('vocabs') }}" method="post">
+<form action="{{ $vocab ? route('vocabs.update', vocabId: $vocab->id) : route('vocabs') }}" method="post">
     <div>
         <label for="hanzi">Hanzi</label>
-        <input type="text" name="hanzi" id="hanzi" />
+        <input type="text" name="hanzi" id="hanzi" value="{{ $vocab->hanzi ?? '' }}" />
     </div>
 
     <div>
         <label for="pinyin">Pinyin</label>
-        <input type="text" name="pinyin" id="pinyin" />
+        <input type="text" name="pinyin" id="pinyin" value="{{ $vocab->pinyin ?? '' }}" />
     </div>
 
     <div>
         <label for="translation">Translation</label>
-        <input type="text" name="translation" id="translation" />
+        <input type="text" name="translation" id="translation" value="{{ $vocab->translation ?? '' }}" />
     </div>
 
     <div>
@@ -40,8 +40,13 @@
     </div>
 
     <div class="mt row">
-        <input type="submit" class="btn" name="next-create" value="Save & create another" />
-        <input type="submit" class="btn" name="next-index" value="Save & go back" />
+        {{ if: $vocab }}
+            <input type="submit" class="btn" value="Save" />
+            <a href="{{ route('vocabs') }}" class="btn secondary">Cancel</a>
+        {{ else: }}
+            <input type="submit" class="btn" name="next-create" value="Save & create another" />
+            <input type="submit" class="btn" name="next-index" value="Save & go back" />
+        {{ if; }}
     </div>
 </form>
 
@@ -158,9 +163,7 @@
 
 <script type="module">
     const availableTags = {{ json: $tags ?? [], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT }};
-    const previousTags = {{ json: $previousTags ?? [], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT }};
-
-    console.log(availableTags, previousTags);
+    const selectedTags = {{ json: $selectedTags ?? [], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT }};
 
     const select = document.querySelector('#tag-select');
     const input = document.querySelector('#tag-input');
@@ -179,7 +182,7 @@
         selectedTag => selectedTag.toLowerCase() === tag.toLowerCase(),
     );
 
-    previousTags.forEach(tag => {
+    selectedTags.forEach(tag => {
         if (typeof tag !== 'string') {
             return;
         }

@@ -62,6 +62,50 @@ class Vocab extends Model
         return $this;
     }
 
+    /**
+     * @param  list<Tag>  $tags
+     */
+    public function syncTags(array $tags): static
+    {
+        $db = DB::init();
+
+        $tagIds = array_values(array_unique(array_map(fn (Tag $tag) => $tag->id, $tags)));
+        $now = date('Y-m-d H:i:s');
+
+        if ($tagIds === []) {
+            // delete all tags of this vocab
+
+            $db->sql(
+                'update tag_vocab set deleted_at = ?, modified_at = ? '
+                    .'where vocab_id = ? and deleted_at is null',
+                [$now, $now, $this->id],
+            );
+
+            return $this;
+        }
+
+        $placeholders = implode(', ', array_fill(0, count($tagIds), '?'));
+
+        // delete all tags not given here
+        $db->sql(
+            'update tag_vocab set deleted_at = ?, modified_at = ? '
+                ."where vocab_id = ? and deleted_at is null and tag_id not in ($placeholders)",
+            [$now, $now, $this->id, ...$tagIds],
+        );
+
+        // add all tags given here
+        $this->attachTags($tags);
+
+        // restore previously deleted tags
+        $db->sql(
+            'update tag_vocab set deleted_at = null, modified_at = ? '
+                ."where vocab_id = ? and tag_id in ($placeholders)",
+            [$now, $this->id, ...$tagIds],
+        );
+
+        return $this;
+    }
+
     public function author(): User
     {
         return User::find($this->author_id);
@@ -81,5 +125,10 @@ class Vocab extends Model
             ?: $this->pinyin
             ?: $this->translation
             ?: '---';
+    }
+
+    public function canEdit(): bool
+    {
+        return $this->author_id === user()->id;
     }
 }

@@ -9,6 +9,7 @@
                 <th>Pinyin</th>
                 <th>Translation</th>
                 <th>Tags</th>
+                <th></th>
             </tr>
         </thead>
 
@@ -23,6 +24,11 @@
                         {{ each: $vocab->tags() as $tag }}
                             <span>#{{ $tag->label }}</span>
                         {{ each; }}
+                    </td>
+                    <td class="td-actions">
+                        {{ if: $vocab->canEdit() }}
+                            <a href="{{ route('vocabs.edit', vocabId: $vocab->id) }}" class="btn secondary">Edit</a>
+                        {{ if; }}
                     </td>
                 </tr>
             {{ each; }}
