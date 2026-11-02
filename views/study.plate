@@ -1,9 +1,13 @@
 {{ plug: 'head', title: 'Study', links: ['main' => 'Home'] }}
 
 <div class="column">
-    <a href="{{ route('study.study', progress: -1) }}" class="btn secondary">Buried</a>
+    <a href="{{ route('study.study', progress: -1) }}" class="btn secondary">
+        Buried (<em>{{ $cardCounts[-1] ?? 0 }}</em>)
+    </a>
 
     {{ each: $progresses as $progress }}
-        <a href="{{ route('study.study', progress: $progress) }}" class="btn">{{ $title($progress) }}</a>
+        <a href="{{ route('study.study', progress: $progress) }}" class="btn">
+            {{ $title($progress) }} (<em>{{ $cardCounts[$progress] ?? 0 }}</em>)
+        </a>
     {{ each; }}
 </div>

@@ -6,6 +6,7 @@ use App\Models\Progress;
 use App\Study;
 use InvalidArgumentException;
 use PXP\Auth\Auth;
+use PXP\Data\DB;
 use PXP\Http\Controllers\Controller;
 use PXP\Http\Response\Redirect;
 use PXP\Lib\Notification;
@@ -14,9 +15,15 @@ class StudyController extends Controller
 {
     public function index()
     {
+        $cardCounts = DB::init()
+            ->select('select progress, count(*) as count from cards group by progress')
+            ->groupBy(fn ($row) => $row->progress)
+            ->map(fn ($progress) => $progress[0]->count);
+
         return view('study', [
             'title' => $this->title(...),
             'progresses' => Progress::forUser(user()),
+            'cardCounts' => $cardCounts,
         ]);
     }
 
