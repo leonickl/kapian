@@ -9,9 +9,9 @@ readonly class Card
     public function __construct(
         public int $vocab_id,
         public string $direction,
-        public ?string $front,
-        public ?string $back_top,
-        public ?string $back_bottom,
+        public ?string $hanzi,
+        public ?string $pinyin,
+        public ?string $translation,
     ) {}
 
     public function vocab(): Vocab

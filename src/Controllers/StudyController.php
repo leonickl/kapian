@@ -48,6 +48,7 @@ class StudyController extends Controller
             'title' => $this->title($progress),
             'progress' => $progress,
             'card' => $card,
+            'back' => false,
         ]);
     }
 
@@ -55,10 +56,11 @@ class StudyController extends Controller
     {
         $card = session('card');
 
-        return view('study.check', [
+        return view('study.study', [
             'title' => $this->title($progress),
             'progress' => $progress,
             'card' => $card,
+            'back' => true,
         ]);
     }
 

@@ -19,7 +19,6 @@ return [
         'components',
         'form',
         'mobile',
-        'flashcard',
     ],
 
     'mail' => (object) [

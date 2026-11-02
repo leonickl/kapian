@@ -12,12 +12,18 @@ class Study
     public function next(): ?Card
     {
         $sql = <<<'SQL'
-            select cards.* from (
+            select cards.vocab_id,
+                cards.direction,
+                cards.hanzi,
+                cards.pinyin,
+                cards.translation
+            from (
                 select id as vocab_id,
                     'hanzi' as direction,
                     hanzi as front,
-                    pinyin as back_top,
-                    translation as back_bottom
+                    hanzi,
+                    pinyin,
+                    translation
                 from visible_vocabs
                     where deleted_at is null
                     and user_id = :user_id
@@ -27,8 +33,9 @@ class Study
                 select id as vocab_id,
                     'pinyin' as direction,
                     pinyin as front,
-                    hanzi as back_top,
-                    translation as back_bottom
+                    hanzi,
+                    pinyin,
+                    translation
                 from visible_vocabs
                     where deleted_at is null
                     and user_id = :user_id
@@ -38,8 +45,9 @@ class Study
                 select id as vocab_id,
                     'translation' as direction,
                     translation as front,
-                    pinyin as back_top,
-                    hanzi as back_bottom
+                    hanzi,
+                    pinyin,
+                    translation
                 from visible_vocabs
                     where deleted_at is null
                     and user_id = :user_id

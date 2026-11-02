@@ -1,14 +1,45 @@
 {{ plug: 'head', title: "Study $title", links: ['main' => 'Home'] }}
 
-<div class="flashcard">
-    <div class="hanzi">
-        {{ $card->front }}
-    </div>
+{{ # FIXME: no front, back_top, back_bottom any more -> format hanzi larger now }}
 
-    <div class="row between">
-        <a href="{{ route('study.check', progress: $progress) }}" class="btn">Check</a>
-        <a href="{{ route('study.study', progress: $progress) }}" class="btn secondary">Skip</a>
-        <a href="{{ route('study.bury', progress: $progress) }}" class="btn secondary">Bury</a>
+<div class="flashcard">
+    {{ if: $card->direction === 'hanzi' }}
+        <span class="hanzi">{{ $card->hanzi }}</span>
+    {{ elif: $card->direction === 'pinyin' }}
+        <span>{{ $card->pinyin }}</span>
+    {{ elif: $card->direction === 'translation' }}
+        <span>{{ $card->translation }}</span>
+    {{ else: }}
+        <em>unknown card direction '{{ $card->direction }}'</em>
+    {{ if; }}
+
+    {{ if: $back }}
+        <hr />
+
+        {{ if: $card->direction === 'hanzi' }}
+            <span>{{ $card->pinyin }}</span>
+            <span>{{ $card->translation }}</span>
+        {{ elif: $card->direction === 'pinyin' }}
+            <span>{{ $card->translation }}</span>
+            <span class="hanzi">{{ $card->hanzi }}</span>
+        {{ elif: $card->direction === 'translation' }}
+            <span>{{ $card->pinyin }}</span>
+            <span class="hanzi">{{ $card->hanzi }}</span>
+        {{ else: }}
+            <em>unknown card direction '{{ $card->direction }}'</em>
+        {{ if; }}
+    {{ if; }}
+
+    <div class="row between mt">
+        {{ if: $back }}
+            <a href="{{ route('study.result', progress: $progress, result: 'correct') }}" class="btn">Correct</a>
+            <a href="{{ route('study.result', progress: $progress, result: 'again') }}" class="btn secondary">Again</a>
+            <a href="{{ route('study.result', progress: $progress, result: 'wrong') }}" class="btn warn">Wrong</a>
+        {{ else: }}
+            <a href="{{ route('study.check', progress: $progress) }}" class="btn">Check</a>
+            <a href="{{ route('study.study', progress: $progress) }}" class="btn secondary">Skip</a>
+            <a href="{{ route('study.bury', progress: $progress) }}" class="btn secondary">Bury</a>
+        {{ if; }}
     </div>
 </div>
 
@@ -19,5 +50,37 @@
 
     main {
         height: 100%;
+    }
+
+    .flashcard {
+        background-color: #ffe79a;
+        color: navy;
+
+        width: min(100%, 400px);
+        min-height: 250px;
+
+        padding: 1rem;
+        border-radius: 1rem;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        translate: -50% -50%;
+        align-items: center;
+    }
+
+    .flashcard hr {
+        width: 70%;
+        margin-block: 1rem;
+        border-color: navy;
+        opacity: .3;
+    }
+
+    .flashcard .hanzi {
+        font-size: 30px;
     }
 </style>
