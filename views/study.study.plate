@@ -50,6 +50,7 @@
 
     main {
         height: 100%;
+        width: min(100%, 500px);
     }
 
     .flashcard {
