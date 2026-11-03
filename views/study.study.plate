@@ -1,7 +1,5 @@
 {{ plug: 'head', title: "Study $title", links: ['main' => 'Home'] }}
 
-{{ # FIXME: no front, back_top, back_bottom any more -> format hanzi larger now }}
-
 <div class="flashcard">
     {{ if: $card->direction === 'hanzi' }}
         <span class="hanzi">{{ $card->hanzi }}</span>
