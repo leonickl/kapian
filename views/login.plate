@@ -1,0 +1,28 @@
+<div id="error" class="notification warn hidden">
+    <p class="m-0 p-0"></p>
+</div>
+
+{{ plug: 'head', title: "Anmelden bei ".config('title') }}
+
+<form action="{{ route('login') }}" method="post">
+    <label for="email" class="required">E-Mail-Adresse</label>
+    <input type="email" id="email" name="identifier" required>
+
+    <label for="password" class="required">Passwort</label>
+    <input type="password" id="password" name="secret" required>
+
+    <label for="remember">
+        Remember me
+        <input type="checkbox" name="remember" id="remember" style="margin-left: 1rem" />
+    </label>
+
+    <div class="row">
+        <button type="submit" class="btn mt-2">Login</button>
+    </div>
+</form>
+
+<style>
+    .hidden {
+        display: none;
+    }
+</style>

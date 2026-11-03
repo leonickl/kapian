@@ -4,12 +4,16 @@ use App\Controllers\MainController;
 use App\Controllers\StudyController;
 use App\Controllers\TagController;
 use App\Controllers\VocabController;
-use PXP\Auth\Controllers\LoginController;
+use App\Controllers\LoginController;
 use PXP\Auth\Controllers\VerificationController;
 use PXP\Auth\Middleware\InteractiveAuth;
 use PXP\Auth\Middleware\VerifiedEmail;
 use PXP\Http\Controllers\AssetController;
 use PXP\Router\Route;
+use App\Middleware\RememberSession;
+
+Route::global()
+    ->preMiddleware(RememberSession::class);
 
 Route::get('/')->do(MainController::class, 'index')->name('main');
 

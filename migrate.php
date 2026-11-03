@@ -138,3 +138,10 @@ $db->sql(<<<'SQL'
     where cards.deleted_at is null
         and front is not null and front is not '';
     SQL);
+
+$db->create('auth_tokens', [
+    'user_id' => 'int not null',
+    'selector' => 'varchar(24) not null',
+    'hashed_validator' => 'varchar(64) not null',
+    'expires' => 'datetime not null'
+]);
