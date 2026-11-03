@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3a9793a1202b0a7bf76be26019d6ad9",
+    "content-hash": "cfde4e3c781a5c9de8c58b5d93f7e223",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -78,7 +78,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-06T14:11:38+00:00"
+            "time": "2026-09-06T14:11:38+00:00",
+            "published-time": "2026-09-06T14:15:00+00:00"
         },
         {
             "name": "lbuchs/webauthn",
@@ -123,7 +124,8 @@
                 "issues": "https://github.com/lbuchs/WebAuthn/issues",
                 "source": "https://github.com/lbuchs/WebAuthn/tree/v2.2.0"
             },
-            "time": "2024-07-04T07:17:40+00:00"
+            "time": "2024-07-04T07:17:40+00:00",
+            "published-time": "2024-07-04T11:09:04+00:00"
         },
         {
             "name": "leonickl/plate",
@@ -160,7 +162,8 @@
                 "issues": "https://github.com/leonickl/plate/issues",
                 "source": "https://github.com/leonickl/plate/tree/v2.1.0"
             },
-            "time": "2026-10-29T21:44:44+00:00"
+            "time": "2026-10-29T21:44:44+00:00",
+            "published-time": "2026-10-29T21:46:10+00:00"
         },
         {
             "name": "leonickl/pxp-auth",
@@ -207,20 +210,21 @@
                 "issues": "https://github.com/leonickl/pxp-auth/issues",
                 "source": "https://github.com/leonickl/pxp-auth/tree/v0.3.2"
             },
-            "time": "2026-09-24T10:08:01+00:00"
+            "time": "2026-09-24T10:08:01+00:00",
+            "published-time": "2026-09-24T10:08:14+00:00"
         },
         {
             "name": "leonickl/pxp-core",
-            "version": "v5.9.0",
+            "version": "v5.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leonickl/pxp-core.git",
-                "reference": "f27dbb9a3a875f9513fb08270145b3fa81a184f1"
+                "reference": "0df5b69790083c4bae97af66b9dffe80ea423eb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leonickl/pxp-core/zipball/f27dbb9a3a875f9513fb08270145b3fa81a184f1",
-                "reference": "f27dbb9a3a875f9513fb08270145b3fa81a184f1",
+                "url": "https://api.github.com/repos/leonickl/pxp-core/zipball/0df5b69790083c4bae97af66b9dffe80ea423eb4",
+                "reference": "0df5b69790083c4bae97af66b9dffe80ea423eb4",
                 "shasum": ""
             },
             "require": {
@@ -252,9 +256,10 @@
             "description": "Core functionality for leonickl/pxp",
             "support": {
                 "issues": "https://github.com/leonickl/pxp-core/issues",
-                "source": "https://github.com/leonickl/pxp-core/tree/v5.9.0"
+                "source": "https://github.com/leonickl/pxp-core/tree/v5.11.0"
             },
-            "time": "2026-10-29T15:54:57+00:00"
+            "time": "2026-11-03T12:16:22+00:00",
+            "published-time": "2026-11-03T12:17:21+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -360,7 +365,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-25T14:32:48+00:00"
+            "time": "2026-10-25T14:32:48+00:00",
+            "published-time": "2026-10-25T14:41:05+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -442,7 +448,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-18T08:06:14+00:00"
+            "time": "2026-05-18T08:06:14+00:00",
+            "published-time": "2026-05-18T08:06:42+00:00"
         },
         {
             "name": "psr/clock",
@@ -490,7 +497,8 @@
                 "issues": "https://github.com/php-fig/clock/issues",
                 "source": "https://github.com/php-fig/clock/tree/1.0.0"
             },
-            "time": "2022-11-25T14:36:26+00:00"
+            "time": "2022-11-25T14:36:26+00:00",
+            "published-time": "2022-11-25T14:59:22+00:00"
         },
         {
             "name": "symfony/clock",
@@ -567,7 +575,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-12T14:32:04+00:00"
+            "time": "2026-10-12T14:32:04+00:00",
+            "published-time": "2026-10-14T06:48:32+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -652,7 +661,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-28T09:35:49+00:00"
+            "time": "2026-10-28T09:35:49+00:00",
+            "published-time": "2026-10-28T10:07:45+00:00"
         },
         {
             "name": "symfony/polyfill-time",
@@ -735,7 +745,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T13:08:13+00:00"
+            "time": "2026-08-07T13:08:13+00:00",
+            "published-time": "2026-08-24T11:45:15+00:00"
         },
         {
             "name": "symfony/translation",
@@ -828,7 +839,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-25T14:40:25+00:00"
+            "time": "2026-10-25T14:40:25+00:00",
+            "published-time": "2026-10-28T18:24:27+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -910,7 +922,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-05T06:23:12+00:00"
+            "time": "2026-06-05T06:23:12+00:00",
+            "published-time": "2026-06-27T21:46:40+00:00"
         }
     ],
     "packages-dev": [
@@ -982,15 +995,16 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2026-09-10T10:47:55+00:00"
+            "time": "2026-09-10T10:47:55+00:00",
+            "published-time": "2026-09-10T10:48:31+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.3.4",
+            "version": "2.3.5",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f20ce6f3c82556cfcfc086b152445a12d1d64fff",
-                "reference": "f20ce6f3c82556cfcfc086b152445a12d1d64fff",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/645a1bd6bead15fc1b8474137467961d0fa30a79",
+                "reference": "645a1bd6bead15fc1b8474137467961d0fa30a79",
                 "shasum": ""
             },
             "require": {
@@ -1046,7 +1060,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-28T22:38:53+00:00"
+            "time": "2026-11-03T12:14:22+00:00",
+            "published-time": "2026-11-03T12:14:36+00:00"
         }
     ],
     "aliases": [],
@@ -1058,5 +1073,5 @@
         "ext-pdo": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
