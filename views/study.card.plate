@@ -28,18 +28,44 @@
         {{ if; }}
     {{ if; }}
 
-    <div class="row between mt">
         {{ if: $back }}
-            <a href="{{ route('study.result', progress: $progress, result: 'correct') }}" class="btn">Correct</a>
-            <a href="{{ route('study.result', progress: $progress, result: 'again') }}" class="btn secondary">Again</a>
-            <a href="{{ route('study.result', progress: $progress, result: 'wrong') }}" class="btn warn">Wrong</a>
+            <div class="row between mt">
+                <a href="{{ route('study.result', progress: $progress, result: 'correct') }}"
+                    class="btn" style="background-color: #209920">Correct</a>
+                <a href="{{ route('study.result', progress: $progress, result: 'again') }}"
+                    class="btn" style="background-color: #e69f1d">Again</a>
+                <a href="{{ route('study.result', progress: $progress, result: 'wrong') }}"
+                    class="btn" style="background-color: #d21111">Wrong</a>
+
+                <button id="more" class="btn secondary">
+                    <div>...</div>
+                </button>
+            </div>
         {{ else: }}
-            <a href="{{ route('study.check', progress: $progress) }}" class="btn">Check</a>
-            <a href="{{ route('study.study', progress: $progress) }}" class="btn secondary">Skip</a>
-            <a href="{{ route('study.bury', progress: $progress) }}" class="btn secondary">Bury</a>
+            <div class="row between mt">
+                <a href="{{ route('study.check', progress: $progress) }}" class="btn">Check</a>
+                <a href="{{ route('study.study', progress: $progress) }}" class="btn secondary">Skip</a>
+                <a href="{{ route('study.bury', progress: $progress) }}" class="btn secondary">Bury</a>
+            </div>
         {{ if; }}
-    </div>
 </div>
+
+{{ if: $back }}
+    <div id="btns" class="row between mt hidden">
+        <a href="{{ route('study.bury', progress: $progress) }}" class="btn secondary">Bury</a>
+        <a href="{{ route('vocabs.edit', vocabId: $card->vocab()->id) }}"
+            target="_blank" class="btn secondary">Edit Vocab</a>
+    </div>
+{{ if; }}
+
+<script>
+    const more = document.querySelector('#more')
+    const btns = document.querySelector('#btns')
+
+    more.addEventListener('click', () => {
+        btns.classList.toggle('hidden')
+    })
+</script>
 
 <style>
     body {
@@ -81,5 +107,28 @@
 
     .flashcard .hanzi {
         font-size: 30px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    #more {
+        width: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    #more > div {
+        rotate: 90deg;
+        translate: 1.5px 0;
+    }
+
+    #btns {
+        position: fixed;
+        bottom: 1rem;
+        left: 50%;
+        translate: -50% 0;
     }
 </style>
