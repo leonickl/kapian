@@ -15,7 +15,7 @@ class StudyController extends Controller
     public function index()
     {
         $cardCounts = DB::init()
-            ->select('select progress, count(*) as count from cards group by progress')
+            ->select('select progress, count(*) as count from cards where user_id = ? group by progress', [user()->id])
             ->groupBy(fn ($row) => $row->progress)
             ->map(fn ($progress) => $progress[0]->count);
 
