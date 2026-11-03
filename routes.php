@@ -1,16 +1,16 @@
 <?php
 
+use App\Controllers\LoginController;
 use App\Controllers\MainController;
 use App\Controllers\StudyController;
 use App\Controllers\TagController;
 use App\Controllers\VocabController;
-use App\Controllers\LoginController;
+use App\Middleware\RememberSession;
 use PXP\Auth\Controllers\VerificationController;
 use PXP\Auth\Middleware\InteractiveAuth;
 use PXP\Auth\Middleware\VerifiedEmail;
 use PXP\Http\Controllers\AssetController;
 use PXP\Router\Route;
-use App\Middleware\RememberSession;
 
 Route::global()
     ->preMiddleware(RememberSession::class);

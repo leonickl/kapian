@@ -13,7 +13,7 @@ class RememberSession
         $validator = bin2hex(random_bytes(33));
 
         $hashedValidator = hash('sha256', $validator);
-        $expires = date('Y-m-d H:i:s', time() + 60*60*24*30);  // 30 days
+        $expires = date('Y-m-d H:i:s', time() + 60 * 60 * 24 * 30);  // 30 days
 
         DB::init()->insert('auth_tokens', [
             'user_id' => user()->id,
@@ -24,8 +24,8 @@ class RememberSession
 
         setcookie(
             name: 'remember_me',
-            value: $selector . ':' . $validator,
-            expires_or_options: time() + 60*60*24*30,
+            value: $selector.':'.$validator,
+            expires_or_options: time() + 60 * 60 * 24 * 30,
             path: '/',
             domain: '',
             secure: true,

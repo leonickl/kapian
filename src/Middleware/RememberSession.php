@@ -2,11 +2,10 @@
 
 namespace App\Middleware;
 
-use PXP\Http\Middleware\Middleware;
-use PXP\Auth\Auth;
-use PXP\Data\DB;
-use PXP\Data\Query\Select;
 use App\RememberSession as RememberSessionService;
+use PXP\Auth\Auth;
+use PXP\Data\Query\Select;
+use PXP\Http\Middleware\Middleware;
 
 class RememberSession extends Middleware
 {

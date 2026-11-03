@@ -2,19 +2,12 @@
 
 namespace App\Controllers;
 
+use App\RememberSession;
 use PXP\Auth\Auth;
-use PXP\Auth\Models\Identity;
-use PXP\Auth\Models\Passkey;
-use PXP\Auth\Passkeys;
 use PXP\Auth\Validation\UserValidator;
 use PXP\Http\Controllers\Controller;
-use PXP\Http\Response\Redirect;
 use PXP\Http\Response\Response;
 use PXP\Lib\Notification;
-use RuntimeException;
-use PXP\Auth\Models\User;
-use PXP\Data\DB;
-use App\RememberSession;
 
 class LoginController extends Controller
 {

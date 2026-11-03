@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use PXP\Auth\Models\User;
 use PXP\Http\Controllers\Controller;
-use PXP\Http\Response\Redirect;
 use PXP\Lib\Notification;
 
 class TagController extends Controller

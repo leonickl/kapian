@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use PXP\Http\Controllers\Controller;
-use PXP\Http\Response\Redirect;
 
 class MainController extends Controller
 {
