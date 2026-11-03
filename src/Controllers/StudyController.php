@@ -19,7 +19,7 @@ class StudyController extends Controller
             ->groupBy(fn ($row) => $row->progress)
             ->map(fn ($progress) => $progress[0]->count);
 
-        return view('study', [
+        return view('study.index', [
             'title' => $this->title(...),
             'progresses' => Progress::forUser(user()),
             'cardCounts' => $cardCounts,
@@ -40,7 +40,7 @@ class StudyController extends Controller
 
         session(['card' => $card]);
 
-        return view('study.study', [
+        return view('study.card', [
             'title' => $this->title($progress),
             'progress' => $progress,
             'card' => $card,
@@ -56,7 +56,7 @@ class StudyController extends Controller
             return redirect('study.study', progress: $progress);
         }
 
-        return view('study.study', [
+        return view('study.card', [
             'title' => $this->title($progress),
             'progress' => $progress,
             'card' => $card,
