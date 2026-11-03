@@ -10,7 +10,7 @@ class MainController extends Controller
     public function index()
     {
         if (! auth()) {
-            return Redirect::route('login');
+            return redirect('login');
         }
 
         return view('main');

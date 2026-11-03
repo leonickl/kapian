@@ -215,16 +215,16 @@
         },
         {
             "name": "leonickl/pxp-core",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leonickl/pxp-core.git",
-                "reference": "0df5b69790083c4bae97af66b9dffe80ea423eb4"
+                "reference": "f124efe56eed9cfa27805a260c688e69bf0fd244"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leonickl/pxp-core/zipball/0df5b69790083c4bae97af66b9dffe80ea423eb4",
-                "reference": "0df5b69790083c4bae97af66b9dffe80ea423eb4",
+                "url": "https://api.github.com/repos/leonickl/pxp-core/zipball/f124efe56eed9cfa27805a260c688e69bf0fd244",
+                "reference": "f124efe56eed9cfa27805a260c688e69bf0fd244",
                 "shasum": ""
             },
             "require": {
@@ -256,10 +256,10 @@
             "description": "Core functionality for leonickl/pxp",
             "support": {
                 "issues": "https://github.com/leonickl/pxp-core/issues",
-                "source": "https://github.com/leonickl/pxp-core/tree/v5.11.0"
+                "source": "https://github.com/leonickl/pxp-core/tree/v5.11.1"
             },
-            "time": "2026-11-03T12:16:22+00:00",
-            "published-time": "2026-11-03T12:17:21+00:00"
+            "time": "2026-11-03T12:25:56+00:00",
+            "published-time": "2026-11-03T12:26:11+00:00"
         },
         {
             "name": "nesbot/carbon",

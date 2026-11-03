@@ -35,7 +35,7 @@ class VocabController extends Controller
         if (! $vocab->canEdit()) {
             Notification::warn('You cannot edit this vocab.');
 
-            return Redirect::route('vocabs');
+            return redirect('vocabs');
         }
 
         return view('vocabs.form', [
@@ -54,7 +54,7 @@ class VocabController extends Controller
         if (! $vocab->canEdit()) {
             Notification::warn('You cannot edit this vocab.');
 
-            return Redirect::route('vocabs');
+            return redirect('vocabs');
         }
 
         $data = $this->validateVocab();
@@ -72,7 +72,7 @@ class VocabController extends Controller
 
         Notification::success("Updated vocab '{$vocab->summary()}'.");
 
-        return Redirect::route('vocabs');
+        return redirect('vocabs');
     }
 
     public function store(): Redirect
@@ -102,7 +102,7 @@ class VocabController extends Controller
             ]);
         }
 
-        return Redirect::route(match (true) {
+        return redirect(match (true) {
             request()->has('next-index') => 'vocabs',
             request()->has('next-create') => 'vocabs.create',
             default => 'vocabs',

@@ -21,7 +21,7 @@ class LoginController extends Controller
     public function form(): Response
     {
         if (Auth::auth()) {
-            return Redirect::route('main');
+            return redirect('main');
         }
 
         return view('login', [
@@ -34,7 +34,7 @@ class LoginController extends Controller
         if (request()->string('secret') === '') {
             Notification::warn('Bitte Passwort eingeben oder die Passkey-Anmeldung nutzen.');
 
-            return Redirect::route('login');
+            return redirect('login');
         }
 
         $request = request()->validate(
@@ -44,18 +44,18 @@ class LoginController extends Controller
         if (! Auth::login($request)) {
             Notification::warn('Ungültige Zugangsdaten gegeben.');
 
-            return Redirect::route('login');
+            return redirect('login');
         }
 
         if (! Auth::user()) {
-            return Redirect::route('login');
+            return redirect('login');
         }
 
         if (request()->bool('remember')) {
             new RememberSession()->rememberSession();
         }
 
-        return Redirect::route('main');
+        return redirect('main');
     }
 
     public function logout(): Response
@@ -64,6 +64,6 @@ class LoginController extends Controller
 
         new RememberSession()->destroySession();
 
-        return Redirect::route('main');
+        return redirect('main');
     }
 }

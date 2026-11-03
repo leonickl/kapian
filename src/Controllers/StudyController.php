@@ -36,7 +36,7 @@ class StudyController extends Controller
 
             Notification::info("$title has no cards left to study. Try studying in another one.");
 
-            return Redirect::route('study');
+            return redirect('study');
         }
 
         session(['card' => $card]);
@@ -53,6 +53,10 @@ class StudyController extends Controller
     {
         $card = session('card');
 
+        if ($card === null) {
+            return redirect('study.study', progress: $progress);
+        }
+
         return view('study.study', [
             'title' => $this->title($progress),
             'progress' => $progress,
@@ -64,6 +68,11 @@ class StudyController extends Controller
     public function bury(int $progress)
     {
         $card = session('card');
+
+        if ($card === null) {
+            return redirect('study.study', progress: $progress);
+        }
+
         $user = user();
 
         Progress::findOrCreate($card, $user)
@@ -74,7 +83,7 @@ class StudyController extends Controller
 
         Notification::success("Buried card '$card->direction' from vocab '$summary'.");
 
-        return Redirect::path(route('study.study', progress: $progress));
+        return redirect('study.study', progress: $progress);
     }
 
     public function result(int $progress, string $result)
@@ -87,6 +96,11 @@ class StudyController extends Controller
         };
 
         $card = session('card');
+
+        if ($card === null) {
+            return redirect('study.study', progress: $progress);
+        }
+
         $user = user();
 
         Progress::findOrCreate($card, $user)
@@ -102,7 +116,7 @@ class StudyController extends Controller
             default => Notification::info("Retained card '$card->direction' from vocab '$summary'"),
         };
 
-        return Redirect::path(route('study.study', progress: $progress));
+        return redirect('study.study', progress: $progress);
     }
 
     private function title(int $progress): string

@@ -27,7 +27,7 @@ class TagController extends Controller
         if (! $tag->isShowable()) {
             Notification::warn('You cannot view this tag.');
 
-            return Redirect::route('tags');
+            return redirect('tags');
         }
 
         return view('tag', [
@@ -47,13 +47,13 @@ class TagController extends Controller
         if (! $tag->isShareable()) {
             Notification::warn('You cannot share this tag.');
 
-            return Redirect::path(route('tags.show', tagId: $tag->id));
+            return redirect('tags.show', tagId: $tag->id);
         }
 
         if ($tag->author_id === $recipient->id) {
             Notification::warn('You cannot share a tag with yourself.');
 
-            return Redirect::path(route('tags.show', tagId: $tag->id));
+            return redirect('tags.show', tagId: $tag->id);
         }
 
         $existing = TagShare::select()
@@ -70,7 +70,7 @@ class TagController extends Controller
 
             Notification::success('Tag is now shared with '.$recipient->name().'.');
 
-            return Redirect::path(route('tags.show', tagId: $tag->id));
+            return redirect('tags.show', tagId: $tag->id);
         }
 
         $share = $existing->first();
@@ -80,7 +80,7 @@ class TagController extends Controller
 
             Notification::success('Tag is now shared with '.$recipient->name().'.');
 
-            return Redirect::path(route('tags.show', tagId: $tag->id));
+            return redirect('tags.show', tagId: $tag->id);
         }
 
         $modifiedAt = strtotime($share->modified_at);
@@ -93,13 +93,13 @@ class TagController extends Controller
 
             Notification::warn("You can only unshare a tag within the first 10 minuntes. Now, is's already $diff ago.");
 
-            return Redirect::path(route('tags.show', tagId: $tag->id));
+            return redirect('tags.show', tagId: $tag->id);
         }
 
         $share->delete();
 
         Notification::info('Stopped sharing with '.$share->recipient()->name.'.');
 
-        return Redirect::path(route('tags.show', tagId: $tag->id));
+        return redirect('tags.show', tagId: $tag->id);
     }
 }
