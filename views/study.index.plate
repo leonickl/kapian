@@ -1,13 +1,17 @@
-{{ plug: 'head', title: 'Study', links: ['main' => 'Home'] }}
+{{ plug: 'head', title: 'Study', links: [route('main') => 'Home'] }}
 
 <div class="column">
-    <a href="{{ route('study.study', progress: -1) }}" class="btn secondary">
-        Buried (<em>{{ $cardCounts[-1] ?? 0 }}</em>)
-    </a>
+    {{ if: $left > 0 }}
+        <p>Currently, {{ $left }} cards are waiting for you.</p>
+        <a href="{{ route('study.front') }}" class="btn" target="_blank">Study now</a>
 
-    {{ each: $progresses as $progress }}
-        <a href="{{ route('study.study', progress: $progress) }}" class="btn">
-            {{ $title($progress) }} (<em>{{ $cardCounts[$progress] ?? 0 }}</em>)
-        </a>
-    {{ each; }}
+        {{ plug: 'button',
+            href: route('study.cancel'),
+            label: 'Cancel study-queue',
+            classes: 'warn' }}
+    {{ else: }}
+        <p>Currently, there are no cards left in the study-queue. Try to add some:</p>
+        <a href="{{ route('tags') }}" class="btn">Browse Tags</a>
+        <a href="{{ route('cardbox') }}" class="btn">Browse Cardbox</a>
+    {{ if; }}
 </div>

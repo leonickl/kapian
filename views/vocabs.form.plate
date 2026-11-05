@@ -1,4 +1,4 @@
-{{ plug: 'head', title: $vocab ? 'Edit Vocab' : 'New Vocab', links: ['main' => 'Home'] }}
+{{ plug: 'head', title: $vocab ? 'Edit Vocab' : 'New Vocab', links: [route('main') => 'Home'] }}
 
 <form action="{{ $vocab ? route('vocabs.update', vocabId: $vocab->id) : route('vocabs') }}" method="post">
     <div>

@@ -9,6 +9,8 @@ use Carbon\CarbonInterface;
 use PXP\Auth\Models\User;
 use PXP\Http\Controllers\Controller;
 use PXP\Lib\Notification;
+use App\Models\QueueItem;
+use App\Card;
 
 class TagController extends Controller
 {
@@ -29,12 +31,14 @@ class TagController extends Controller
             return redirect('tags');
         }
 
+        $people =  $tag->isShareable()
+            ? User::all(['id', 'name'])
+                ->filter(fn ($user) => $user->id !== user()->id)
+            : [];
+
         return view('tag', [
             'tag' => $tag,
-            'people' => $tag->isShareable()
-                ? User::all(['id', 'name'])
-                    ->filter(fn ($user) => $user->id !== user()->id)
-                    : [],
+            'people' => $people,
         ]);
     }
 
@@ -100,5 +104,33 @@ class TagController extends Controller
         Notification::info('Stopped sharing with '.$share->recipient()->name.'.');
 
         return redirect('tags.show', tagId: $tag->id);
+    }
+
+    public function study(int $tagId)
+    {
+        $tag = Tag::find($tagId);
+
+        if (! $tag->isShowable()) {
+            Notification::warn('You cannot study this tag.');
+
+            return redirect('study');
+        }
+
+        $user = user();
+
+        $before = QueueItem::forUser($user)->count();
+
+        QueueItem::push(
+            user: $user,
+            cards: Card::forTag($tag, $user),
+        );
+
+        $after = QueueItem::forUser($user)->count();
+
+        $diff = $after - $before;
+
+        Notification::success("Added $diff cards to the study-queue.");
+
+        return redirect('study');
     }
 }

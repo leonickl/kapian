@@ -20,14 +20,11 @@ class Progress extends Model
     public static function forUser(User $user)
     {
         return self::select('progress')
-            ->where('progress', 'is not', -1)
             ->whereIs('user_id', $user->id)
             ->order('progress')
             ->get()
             ->map(fn ($record) => $record->progress)
-            ->with(0)
-            ->unique()
-            ->sort(fn (int $one, int $other) => $one <=> $other);
+            ->unique();
     }
 
     public static function findOrCreate(Card $card, User $user): ?self

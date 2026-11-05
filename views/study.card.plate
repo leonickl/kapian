@@ -1,4 +1,4 @@
-{{ plug: 'head', title: "Study $title", links: ['main' => 'Home'] }}
+{{ plug: 'head', title: "Study", subtitle: "$left left", links: [route('main') => 'Home'] }}
 
 <div class="flashcard">
     {{ if: $card->direction === 'hanzi' }}
@@ -30,12 +30,21 @@
 
         {{ if: $back }}
             <div class="row between mt">
-                <a href="{{ route('study.result', progress: $progress, result: 'correct') }}"
-                    class="btn" style="background-color: #209920">Correct</a>
-                <a href="{{ route('study.result', progress: $progress, result: 'again') }}"
-                    class="btn" style="background-color: #e69f1d">Again</a>
-                <a href="{{ route('study.result', progress: $progress, result: 'wrong') }}"
-                    class="btn" style="background-color: #d21111">Wrong</a>
+
+                {{ plug: 'button',
+                    href: route('study.result', result: 'correct'),
+                    styles: 'background-color: #209920',
+                    label: 'Correct' }}
+
+                {{ plug: 'button',
+                    href: route('study.result', result: 'again'),
+                    styles: 'background-color: #e69f1d',
+                    label: 'Again' }}
+
+                {{ plug: 'button',
+                    href: route('study.result', result: 'wrong'),
+                    styles: 'background-color: #d21111',
+                    label: 'Wrong' }}
 
                 <button id="more" class="btn secondary">
                     <div>...</div>
@@ -43,16 +52,28 @@
             </div>
         {{ else: }}
             <div class="row between mt">
-                <a href="{{ route('study.check', progress: $progress) }}" class="btn">Check</a>
-                <a href="{{ route('study.study', progress: $progress) }}" class="btn secondary">Skip</a>
-                <a href="{{ route('study.bury', progress: $progress) }}" class="btn secondary">Bury</a>
+                <a href="{{ route('study.back') }}" class="btn">Check</a>
+
+                {{ plug: 'button',
+                    href: route('study.skip'),
+                    classes: 'secondary',
+                    label: 'Skip' }}
+
+                {{ plug: 'button',
+                    href: route('study.bury'),
+                    classes: 'secondary',
+                    label: 'Bury' }}
             </div>
         {{ if; }}
 </div>
 
 {{ if: $back }}
     <div id="btns" class="row between mt hidden">
-        <a href="{{ route('study.bury', progress: $progress) }}" class="btn secondary">Bury</a>
+        {{ plug: 'button',
+            href: route('study.bury'),
+            classes: 'secondary',
+            label: 'Bury' }}
+
         <a href="{{ route('vocabs.edit', vocabId: $card->vocab()->id) }}"
             target="_blank" class="btn secondary">Edit Vocab</a>
     </div>

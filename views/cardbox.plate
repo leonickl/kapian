@@ -1,0 +1,9 @@
+{{ plug: 'head', title: 'Cardbox', links: [route('main') => 'Home'] }}
+
+<div class="column">
+    {{ each: $progresses as $progress => $count }}
+        {{ plug: 'button',
+            href: route('cardbox.study', level: $progress),
+            label: $progressLabel($progress).' ('.$count.')' }}
+    {{ each; }}
+</div>

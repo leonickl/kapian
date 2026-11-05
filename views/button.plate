@@ -1,0 +1,3 @@
+<form action="{{ $href }}" method="{{ $method ?? 'post' }}" {{ $target ? 'target="'.$target.'"' : '' }}>
+    <input type="submit" class="btn {{ $classes }}" style="width: 100%; height: 100%; {{ $styles }}" value="{{ $label }}" />
+</form>

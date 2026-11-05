@@ -1,10 +1,16 @@
 <div class="row wrap between">
-    <h1>{{ $title }}</h1>
+    <div>
+        <h1>{{ $title }}</h1>
+
+        {{ if: @$subtitle }}
+            <h2>{{ $subtitle }}</h2>
+        {{ if; }}
+    </div>
 
     <div>
         <div class="row wrap mb">
             {{ each: $links ?? [] as $url => $label }}
-                <a href="{{ route($url) }}" class="btn">{{ $label }}</a>
+                <a href="{{ $url }}" class="btn">{{ $label }}</a>
             {{ each; }}
         </div>
     </div>

@@ -1,4 +1,10 @@
-{{ plug: 'head', title: "#$tag->label", links: ['main' => 'Home'] }}
+{{ plug: 'head', title: "#$tag->label", links: [
+    route('main') => 'Home',
+] }}
+
+{{ plug: 'button',
+    href: route('tags.study', tagId: $tag->id),
+    label: 'Study' }}
 
 {{ if: $tag->isShareable() }}
     <div class="mb">

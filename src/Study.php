@@ -5,38 +5,40 @@ namespace App;
 use PXP\Auth\Models\User;
 use PXP\Data\DB;
 use PXP\Ds\Vector;
+use App\Models\Tag;
+use App\Models\QueueItem;
 
 class Study
 {
-    public function __construct(private User $user, private int $progress) {}
-
-    public function next(): ?Card
+    /**
+     * Shuffle user's queue and return first one with
+     * an existing card. On the way, delete entries
+     * that do not have a corresponding card.
+     */
+    public static function next(): ?Card
     {
-        $cards = $this->cards();
+        $items = QueueItem::forUser(user())->toArray();
 
-        if ($cards->count() === 0) {
-            return null;
+        shuffle($items);
+
+        foreach ($items as $item) {
+            $card = $item->card();
+
+            if ($card !== null) {
+                return $card;
+            }
+
+            $item->delete();
         }
 
-        return new Card(...(array) $cards->sample()->first());
+        return null;
     }
 
-    public function cards(): Vector
+    /**
+     * Count all left cards from the current study-queue.
+     */
+    public static function left(): int
     {
-        $sql = <<<'SQL'
-            select vocab_id,
-                direction,
-                hanzi,
-                pinyin,
-                translation
-            from cards
-            where cards.user_id = :user_id
-                and progress = cast(:progress as int);
-        SQL;
-
-        return DB::init()->select($sql, [
-            'user_id' => $this->user->id,
-            'progress' => $this->progress,
-        ]);
+        return QueueItem::forUser(user())->count();
     }
 }

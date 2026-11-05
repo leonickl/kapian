@@ -6,5 +6,5 @@ use PXP\Auth\Models\User;
 function user(): User
 {
     return Auth::user()
-        ?? error('An authenticated user is required.');
+        ?? error(Exception::class, 'An authenticated user is required.');
 }

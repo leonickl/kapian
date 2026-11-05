@@ -1,4 +1,7 @@
-{{ plug: 'head', title: 'Vocabs', links: ['main' => 'Home', 'vocabs.create' => 'New'] }}
+{{ plug: 'head', title: 'Vocabs', links: [
+    route('main') => 'Home',
+    route('vocabs.create') => 'New',
+] }}
 
 <div class="overflow-x-auto">
     <table class="styled w-full quotes">

@@ -9,31 +9,25 @@ use PXP\Auth\Auth;
 use PXP\Data\DB;
 use PXP\Http\Controllers\Controller;
 use PXP\Lib\Notification;
+use App\Models\Tag;
+use App\Card;
+use App\Models\QueueItem;
 
 class StudyController extends Controller
 {
     public function index()
     {
-        $cardCounts = DB::init()
-            ->select('select progress, count(*) as count from cards where user_id = ? group by progress', [user()->id])
-            ->groupBy(fn ($row) => $row->progress)
-            ->map(fn ($progress) => $progress[0]->count);
-
         return view('study.index', [
-            'title' => $this->title(...),
-            'progresses' => Progress::forUser(user()),
-            'cardCounts' => $cardCounts,
+            'left' => Study::left(),
         ]);
     }
 
-    public function study(int $progress)
+    public function front()
     {
-        $card = new Study(Auth::user(), $progress)->next();
+        $card = Study::next();
 
         if ($card === null) {
-            $title = $this->title($progress);
-
-            Notification::info("$title has no cards left to study. Try studying in another one.");
+            Notification::info("Current study-queue has no cards left. Try adding some cards to it.");
 
             return redirect('study');
         }
@@ -41,51 +35,60 @@ class StudyController extends Controller
         session(['card' => $card]);
 
         return view('study.card', [
-            'title' => $this->title($progress),
-            'progress' => $progress,
             'card' => $card,
             'back' => false,
+            'left' => Study::left(),
         ]);
     }
 
-    public function check(int $progress)
+    public function back()
     {
         $card = session('card');
 
         if ($card === null) {
-            return redirect('study.study', progress: $progress);
+            return redirect('study.front');
         }
 
         return view('study.card', [
-            'title' => $this->title($progress),
-            'progress' => $progress,
             'card' => $card,
             'back' => true,
+            'left' => Study::left(),
         ]);
     }
 
-    public function bury(int $progress)
+    public function skip()
+    {
+        $card = session('card');
+
+        if ($card !== null) {
+            Notification::info("Skipped card '$card->direction'"
+                ."from vocab '".$card->vocab()->summary()."'.");
+        }
+
+        return redirect('study.front');
+    }
+
+    public function bury()
     {
         $card = session('card');
 
         if ($card === null) {
-            return redirect('study.study', progress: $progress);
+            return redirect('study.front');
         }
 
-        $user = user();
-
-        Progress::findOrCreate($card, $user)
+        Progress::findOrCreate($card, user())
             ->fill(progress: -1)
             ->save();
 
-        $summary = $card->vocab()->summary();
+        QueueItem::findByCard(user(), $card)?->delete();
 
-        Notification::success("Buried card '$card->direction' from vocab '$summary'.");
+        Notification::info("Buried card '$card->direction'"
+            ."from vocab '".$card->vocab()->summary()."'.");
 
-        return redirect('study.study', progress: $progress);
+        return redirect('study.front');
     }
 
-    public function result(int $progress, string $result)
+    public function result(string $result)
     {
         $delta = match ($result) {
             'correct' => 1,
@@ -97,7 +100,7 @@ class StudyController extends Controller
         $card = session('card');
 
         if ($card === null) {
-            return redirect('study.study', progress: $progress);
+            return redirect('study.front');
         }
 
         $user = user();
@@ -105,6 +108,8 @@ class StudyController extends Controller
         Progress::findOrCreate($card, $user)
             ->delta($delta)
             ->save();
+
+        QueueItem::findByCard(user(), $card)?->delete();
 
         $summary = $card->vocab()->summary();
 
@@ -115,19 +120,16 @@ class StudyController extends Controller
             default => Notification::info("Retained card '$card->direction' from vocab '$summary'"),
         };
 
-        return redirect('study.study', progress: $progress);
+        return redirect('study.front');
     }
 
-    private function title(int $progress): string
+    public function cancel()
     {
-        if ($progress >= 0) {
-            return "Level $progress";
-        }
+        QueueItem::forUser(user())
+            ->each(fn (QueueItem $item) => $item->delete());
 
-        if ($progress === -1) {
-            return 'Buried';
-        }
+        Notification::warn("Study-queue was cancelled.");
 
-        return "Basement $progress";
+        return redirect('study');
     }
 }

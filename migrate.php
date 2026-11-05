@@ -145,3 +145,9 @@ $db->create('auth_tokens', [
     'hashed_validator' => 'varchar(64) not null',
     'expires' => 'datetime not null',
 ]);
+
+$db->create('queue', [
+    'user_id' => 'int not null references users(id)',
+    'vocab_id' => 'int not null references vocabs(id)',
+    'direction' => 'string not null',
+]);
