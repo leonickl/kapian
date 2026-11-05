@@ -1,5 +1,3 @@
-{{ plug: 'head', title: "Study", subtitle: "$left left", links: [route('main') => 'Home'] }}
-
 <div class="flashcard">
     {{ if: $card->direction === 'hanzi' }}
         <span class="hanzi">{{ $card->hanzi }}</span>
@@ -66,6 +64,8 @@
             </div>
         {{ if; }}
 </div>
+
+<p id="bottom-info" class="text-center">{{ $left }} cards left to study </p>
 
 {{ if: $back }}
     <div id="btns" class="row between mt hidden">
@@ -151,5 +151,13 @@
         bottom: 1rem;
         left: 50%;
         translate: -50% 0;
+    }
+
+    #bottom-info {
+        position: absolute;
+        bottom: 5rem;
+        left: 50%;
+        translate: -50% 0;
+        opacity: .5;
     }
 </style>

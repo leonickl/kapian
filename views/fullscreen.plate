@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{ each: config('css', []) as $file }}
+        <link rel="stylesheet" href="{{ route('css', file: $file) }}">
+    {{ each; }}
+
+    {{ each: config('js', []) as $file }}
+        <script src="{{ route('js', file: $file) }}"></script>
+    {{ each; }}
+
+    <title>{{ config('title') }}</title>
+</head>
+
+<body>
+    <main>
+        {{ each: notifications() ?? [] as $notification }}
+            <div class="notification {{ $notification->type }}">
+                <p class="m-0 p-0">{{ $notification->content }}</p>
+            </div>
+        {{ each; }}
+
+        {{ % $slot }}
+    </main>
+
+    <style>
+        main {
+            background: none;
+            box-shadow: none;
+        }
+
+        .notification {
+            opacity: .6;
+        }
+    </style>
+</body>
+
+</html>

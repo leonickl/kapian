@@ -34,7 +34,7 @@ class StudyController extends Controller
             'card' => $card,
             'back' => false,
             'left' => Study::left(),
-        ]);
+        ], layout: 'fullscreen');
     }
 
     public function back()
@@ -49,7 +49,7 @@ class StudyController extends Controller
             'card' => $card,
             'back' => true,
             'left' => Study::left(),
-        ]);
+        ], layout: 'fullscreen');
     }
 
     public function skip()
@@ -57,7 +57,7 @@ class StudyController extends Controller
         $card = session('card');
 
         if ($card !== null) {
-            Notification::info("Skipped card '$card->direction'"
+            Notification::info("Skipped card '$card->direction' "
                 ."from vocab '".$card->vocab()->summary()."'.");
         }
 
