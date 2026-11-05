@@ -105,7 +105,10 @@ class StudyController extends Controller
             ->delta($delta)
             ->save();
 
-        QueueItem::findByCard(user(), $card)?->delete();
+        if ($result === 'correct') {
+            // keep wrong/again cards in the queue
+            QueueItem::findByCard(user(), $card)?->delete();
+        }
 
         $summary = $card->vocab()->summary();
 
