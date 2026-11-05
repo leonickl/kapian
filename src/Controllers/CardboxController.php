@@ -2,11 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Models\Progress;
+use App\Card;
+use App\Models\QueueItem;
 use PXP\Data\DB;
 use PXP\Http\Controllers\Controller;
-use App\Models\QueueItem;
-use App\Card;
 use PXP\Lib\Notification;
 
 class CardboxController extends Controller
@@ -19,7 +18,7 @@ class CardboxController extends Controller
             }
 
             if ($progress === 0) {
-                return "New";
+                return 'New';
             }
 
             if ($progress < 0) {

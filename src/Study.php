@@ -2,11 +2,8 @@
 
 namespace App;
 
-use PXP\Auth\Models\User;
-use PXP\Data\DB;
-use PXP\Ds\Vector;
-use App\Models\Tag;
 use App\Models\QueueItem;
+use PXP\Auth\Models\User;
 
 class Study
 {

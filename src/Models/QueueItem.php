@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use PXP\Data\Model;
-use PXP\Auth\Models\User;
 use App\Card;
+use PXP\Auth\Models\User;
+use PXP\Data\Model;
 use PXP\Ds\Vector;
 
 /**

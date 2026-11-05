@@ -3,15 +3,11 @@
 namespace App\Controllers;
 
 use App\Models\Progress;
+use App\Models\QueueItem;
 use App\Study;
 use InvalidArgumentException;
-use PXP\Auth\Auth;
-use PXP\Data\DB;
 use PXP\Http\Controllers\Controller;
 use PXP\Lib\Notification;
-use App\Models\Tag;
-use App\Card;
-use App\Models\QueueItem;
 
 class StudyController extends Controller
 {
@@ -27,7 +23,7 @@ class StudyController extends Controller
         $card = Study::next();
 
         if ($card === null) {
-            Notification::info("Current study-queue has no cards left. Try adding some cards to it.");
+            Notification::info('Current study-queue has no cards left. Try adding some cards to it.');
 
             return redirect('study');
         }
@@ -128,7 +124,7 @@ class StudyController extends Controller
         QueueItem::forUser(user())
             ->each(fn (QueueItem $item) => $item->delete());
 
-        Notification::warn("Study-queue was cancelled.");
+        Notification::warn('Study-queue was cancelled.');
 
         return redirect('study');
     }

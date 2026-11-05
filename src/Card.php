@@ -2,11 +2,11 @@
 
 namespace App;
 
-use App\Models\Vocab;
-use PXP\Ds\Vector;
-use PXP\Auth\Models\User;
-use App\Models\Tag;
 use App\Models\QueueItem;
+use App\Models\Tag;
+use App\Models\Vocab;
+use PXP\Auth\Models\User;
+use PXP\Ds\Vector;
 
 readonly class Card
 {
@@ -66,7 +66,7 @@ readonly class Card
     {
         return self::query($user->id)
             ->execute()
-            ->filter(fn (object $card) => (int)$card->progress === $level)
+            ->filter(fn (object $card) => (int) $card->progress === $level)
             ->map(fn (object $card) => new self(...(array) $card));
     }
 }

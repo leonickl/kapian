@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\CardboxController;
 use App\Controllers\LoginController;
 use App\Controllers\MainController;
 use App\Controllers\StudyController;
@@ -11,7 +12,6 @@ use PXP\Auth\Middleware\InteractiveAuth;
 use PXP\Auth\Middleware\VerifiedEmail;
 use PXP\Http\Controllers\AssetController;
 use PXP\Router\Route;
-use App\Controllers\CardboxController;
 
 Route::global()
     ->preMiddleware(RememberSession::class);

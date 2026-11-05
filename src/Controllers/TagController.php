@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Card;
+use App\Models\QueueItem;
 use App\Models\Tag;
 use App\Models\TagShare;
 use Carbon\Carbon;
@@ -9,8 +11,6 @@ use Carbon\CarbonInterface;
 use PXP\Auth\Models\User;
 use PXP\Http\Controllers\Controller;
 use PXP\Lib\Notification;
-use App\Models\QueueItem;
-use App\Card;
 
 class TagController extends Controller
 {
@@ -31,7 +31,7 @@ class TagController extends Controller
             return redirect('tags');
         }
 
-        $people =  $tag->isShareable()
+        $people = $tag->isShareable()
             ? User::all(['id', 'name'])
                 ->filter(fn ($user) => $user->id !== user()->id)
             : [];
