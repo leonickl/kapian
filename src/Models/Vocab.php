@@ -111,14 +111,6 @@ class Vocab extends Model
         return User::find($this->author_id);
     }
 
-    /**
-     * @return Vector<static>
-     */
-    public function siblings(): Vector
-    {
-        return self::findAllBy('pinyin', $this->pinyin);
-    }
-
     public function summary(): string
     {
         return $this->hanzi

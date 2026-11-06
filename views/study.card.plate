@@ -24,6 +24,26 @@
         {{ else: }}
             <em>unknown card direction '{{ $card->direction }}'</em>
         {{ if; }}
+
+        {{ if: $card->siblings()->count() > 0 }}
+            <hr />
+
+            <b>'{{ $card->front() }}' can also mean:</b>
+
+            {{ each: $card->siblings() as $sibling }}
+                {{ php: $details = match ($card->direction) {
+                    'hanzi' => [$sibling->pinyin, $sibling->translation],
+                    'pinyin' => [$sibling->hanzi, $sibling->translation],
+                    'translation' => [$sibling->hanzi, $sibling->pinyin],
+                    default => [],
+                } }}
+
+                <a href="{{ route('vocabs.edit', vocabId: $sibling->vocab()?->id ) }}">
+                    <span>{{ join(' – ', $details) }}</span>
+                </a>
+            {{ each; }}
+        {{ if; }}
+
     {{ if; }}
 
         {{ if: $back }}
@@ -47,6 +67,7 @@
                 <button id="more" class="btn secondary">
                     <div>...</div>
                 </button>
+
             </div>
         {{ else: }}
             <div class="row between mt">

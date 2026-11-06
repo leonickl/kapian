@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\Vocab;
 use PXP\Auth\Models\User;
 use PXP\Ds\Vector;
+use InvalidArgumentException;
 
 readonly class Card
 {
@@ -18,11 +19,6 @@ readonly class Card
         public ?string $translation,
         mixed ...$others,
     ) {}
-
-    public function vocab(): Vocab
-    {
-        return Vocab::find($this->vocab_id);
-    }
 
     private static function query(int $userId)
     {
@@ -68,5 +64,34 @@ readonly class Card
             ->execute()
             ->filter(fn (object $card) => (int) $card->progress === $level)
             ->map(fn (object $card) => new self(...(array) $card));
+    }
+
+    public function vocab(): Vocab
+    {
+        return Vocab::find($this->vocab_id);
+    }
+
+    public function siblings(): Vector
+    {
+        $field = $this->direction;
+
+        if (! in_array($field, ['hanzi', 'pinyin', 'translation'])) {
+            return v();
+        }
+
+        return self::forUser(user())
+            ->filter(fn (self $card) => $card->vocab_id !== $this->vocab_id
+                && $card->direction === $field
+                && $card->$field === $this->$field);
+    }
+
+    public function front(): ?string
+    {
+        return match ($this->direction) {
+            'hanzi' => $this->hanzi,
+            'pinyin' => $this->pinyin,
+            'translation' => $this->translation,
+            default => throw new InvalidArgumentException("Unknown card direction '$this->direction'."),
+        };
     }
 }
