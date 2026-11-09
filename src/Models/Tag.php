@@ -100,14 +100,18 @@ class Tag extends Model
         return Vocab::map($vocabs);
     }
 
-    public function isShareable(): bool
+    public function isShareable(?User $user = null): bool
     {
-        return $this->owner_id === user()->id;
+        $user ??= user();
+
+        return $this->owner_id === $user->id;
     }
 
-    public function isShowable(): bool
+    public function isShowable(?User $user = null): bool
     {
-        return $this->owner_id === user()->id
+        $user ??= user();
+
+        return $this->owner_id === $user->id
             || TagShare::select()
                 ->whereIs('tag_id', $this->id)
                 ->whereIs('recipient_id', user()->id)
@@ -120,8 +124,10 @@ class Tag extends Model
         return TagShare::findAllBy('tag_id', $this->id);
     }
 
-    public function isSharedWith(User $user): bool
+    public function isSharedWith(?User $user = null): bool
     {
+        $user ??= user();
+
         return $this->shares()
             ->filter(fn (TagShare $share) => $share->recipient_id === $user->id)
             ->count() > 0;

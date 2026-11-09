@@ -119,8 +119,27 @@ class Vocab extends Model
             ?: '---';
     }
 
-    public function canEdit(): bool
+    public function canEdit(?User $user = null): bool
     {
-        return $this->author_id === user()->id;
+        $user ??= user();
+
+        return $this->author_id === $user->id;
+    }
+
+    public function isSharedWith(?User $user = null): bool
+    {
+        $user ??= user();
+
+        return $this->tags()
+            ->filter(fn (Tag $tag)  => $tag->isSharedWith($user))
+            ->count() > 0;
+    }
+
+    public function canShow(?User $user = null): bool
+    {
+        $user ??= user();
+
+        return $this->author_id === $user->id
+            || $this->isSharedWith($user);
     }
 }

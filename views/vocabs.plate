@@ -29,8 +29,8 @@
                         {{ each; }}
                     </td>
                     <td class="td-actions">
-                        {{ if: $vocab->canEdit() }}
-                            <a href="{{ route('vocabs.edit', vocabId: $vocab->id) }}" class="btn secondary">Edit</a>
+                        {{ if: $vocab->canShow() }}
+                            <a href="{{ route('vocabs.show', vocabId: $vocab->id) }}" class="btn secondary">Show</a>
                         {{ if; }}
                     </td>
                 </tr>

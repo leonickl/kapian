@@ -1,0 +1,41 @@
+{{ plug: 'head', title: $vocab->summary(), links: [
+    route('main') => 'Home',
+    route('vocabs.edit', vocabId: $vocab->id) => 'Edit',
+] }}
+
+<div>
+    {{ if: $vocab->hanzi }}
+        <div>Hanzi:</div>
+        <div>{{ $vocab->hanzi }}</div>
+    {{ if; }}
+
+    {{ if: $vocab->pinyin }}
+        <div>Pinyin:</div>
+        <div>{{ $vocab->pinyin }}</div>
+    {{ if; }}
+
+    {{ if: $vocab->translation }}
+        <div>Translation:</div>
+        <div>{{ $vocab->translation }}</div>
+    {{ if; }}
+
+    <div class="mt">
+        {{ each: $vocab->tags() as $tag }}
+            <div class="tag-chip">{{ $tag->label }}</div>
+        {{ each; }}
+    </div>
+</div>
+
+<style>
+    .tag-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.1rem 0.5rem 0.1rem 0.65rem;
+        border-radius: 999px;
+        background: var(--primary);
+        color: #fff;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+</style>

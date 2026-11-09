@@ -28,6 +28,21 @@ class VocabController extends Controller
         ]);
     }
 
+    public function show(int $vocabId): View|Redirect
+    {
+        $vocab = Vocab::find($vocabId);
+
+        if (! $vocab->canShow()) {
+            Notification::warn('You cannot view this vocab.');
+
+            return redirect('vocabs');
+        }
+
+        return view('vocabs.show', [
+            'vocab' => $vocab,
+        ]);
+    }
+
     public function edit(int $vocabId): View|Redirect
     {
         $vocab = Vocab::find($vocabId);
@@ -35,7 +50,7 @@ class VocabController extends Controller
         if (! $vocab->canEdit()) {
             Notification::warn('You cannot edit this vocab.');
 
-            return redirect('vocabs');
+            return redirect('vocabs.show', vocabId: $vocab->id);
         }
 
         return view('vocabs.form', [
@@ -72,7 +87,7 @@ class VocabController extends Controller
 
         Notification::success("Updated vocab '{$vocab->summary()}'.");
 
-        return redirect('vocabs');
+        return redirect('vocabs.show', vocabId: $vocab->id);
     }
 
     public function store(): Redirect

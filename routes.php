@@ -22,6 +22,7 @@ Route::group(
     Route::get('/vocabs')->do(VocabController::class, 'index')->name('vocabs'),
     Route::get('/vocabs/create')->do(VocabController::class, 'create')->name('vocabs.create'),
     Route::post('/vocabs')->do(VocabController::class, 'store'),
+    Route::get('/vocabs/{vocabId}')->do(VocabController::class, 'show')->name('vocabs.show'),
     Route::get('/vocabs/{vocabId}/edit')->do(VocabController::class, 'edit')->name('vocabs.edit'),
     Route::post('/vocabs/{vocabId}')->do(VocabController::class, 'update')->name('vocabs.update'),
 

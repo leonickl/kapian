@@ -38,7 +38,7 @@
                     default => [],
                 } }}
 
-                <a href="{{ route('vocabs.edit', vocabId: $sibling->vocab()?->id ) }}">
+                <a href="{{ route('vocabs.show', vocabId: $sibling->vocab()?->id ) }}">
                     <span>{{ join(' – ', $details) }}</span>
                 </a>
             {{ each; }}
@@ -77,11 +77,6 @@
                     href: route('study.skip'),
                     classes: 'secondary',
                     label: 'Skip' }}
-
-                {{ plug: 'button',
-                    href: route('study.bury'),
-                    classes: 'secondary',
-                    label: 'Bury' }}
             </div>
         {{ if; }}
 </div>
@@ -95,8 +90,8 @@
             classes: 'secondary',
             label: 'Bury' }}
 
-        <a href="{{ route('vocabs.edit', vocabId: $card->vocab()->id) }}"
-            target="_blank" class="btn secondary">Edit Vocab</a>
+        <a href="{{ route('vocabs.show', vocabId: $card->vocab()->id) }}"
+            target="_blank" class="btn secondary">Show Vocab</a>
     </div>
 {{ if; }}
 
