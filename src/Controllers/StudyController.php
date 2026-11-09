@@ -23,7 +23,8 @@ class StudyController extends Controller
         $card = Study::next();
 
         if ($card === null) {
-            Notification::info('Current study-queue has no cards left. Try adding some cards to it.');
+            Notification::info('Current study-queue has no cards left. '
+                .'Try adding some cards to it.');
 
             return redirect('study');
         }

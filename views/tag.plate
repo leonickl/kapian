@@ -6,7 +6,7 @@
     href: route('tags.study', tagId: $tag->id),
     label: 'Study' }}
 
-{{ if: $tag->isShareable() }}
+{{ if: $tag->canShare() }}
     <div class="mb">
         <h2>Members</h2>
 

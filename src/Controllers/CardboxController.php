@@ -32,9 +32,7 @@ class CardboxController extends Controller
 
         $after = QueueItem::forUser($user)->count();
 
-        $diff = $after - $before;
-
-        Notification::success("Added $diff cards to the study-queue.");
+        Notification::success('Added '.($after - $before).' cards to the study-queue.');
 
         return redirect('study');
     }

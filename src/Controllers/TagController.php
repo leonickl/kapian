@@ -25,13 +25,13 @@ class TagController extends Controller
     {
         $tag = Tag::find($tagId);
 
-        if (! $tag->isShowable()) {
+        if (! $tag->canShow()) {
             Notification::warn('You cannot view this tag.');
 
             return redirect('tags');
         }
 
-        $people = $tag->isShareable()
+        $people = $tag->canShare()
             ? User::all(['id', 'name'])
                 ->filter(fn ($user) => $user->id !== user()->id)
             : [];
@@ -47,7 +47,7 @@ class TagController extends Controller
         $tag = Tag::find($tagId);
         $recipient = User::find($recipientId);
 
-        if (! $tag->isShareable()) {
+        if (! $tag->canShare()) {
             Notification::warn('You cannot share this tag.');
 
             return redirect('tags.show', tagId: $tag->id);
@@ -110,7 +110,7 @@ class TagController extends Controller
     {
         $tag = Tag::find($tagId);
 
-        if (! $tag->isShowable()) {
+        if (! $tag->canShow()) {
             Notification::warn('You cannot study this tag.');
 
             return redirect('study');

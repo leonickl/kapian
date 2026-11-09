@@ -100,14 +100,14 @@ class Tag extends Model
         return Vocab::map($vocabs);
     }
 
-    public function isShareable(?User $user = null): bool
+    public function canShare(?User $user = null): bool
     {
         $user ??= user();
 
         return $this->owner_id === $user->id;
     }
 
-    public function isShowable(?User $user = null): bool
+    public function canShow(?User $user = null): bool
     {
         $user ??= user();
 
