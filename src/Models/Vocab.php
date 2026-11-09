@@ -6,6 +6,7 @@ use PXP\Auth\Models\User;
 use PXP\Data\DB;
 use PXP\Data\Model;
 use PXP\Ds\Vector;
+use App\Card;
 
 /**
  * @property-read int $id
@@ -141,5 +142,10 @@ class Vocab extends Model
 
         return $this->author_id === $user->id
             || $this->isSharedWith($user);
+    }
+
+    public function cards(): Vector
+    {
+        return Card::forUserAndVocab(user: user(), vocab: $this);
     }
 }

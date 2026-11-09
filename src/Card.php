@@ -8,6 +8,7 @@ use App\Models\Vocab;
 use InvalidArgumentException;
 use PXP\Auth\Models\User;
 use PXP\Ds\Vector;
+use App\Models\Progress;
 
 readonly class Card
 {
@@ -31,6 +32,14 @@ readonly class Card
     public static function forUser(User $user): Vector
     {
         return self::query($user->id)
+            ->execute()
+            ->map(fn (object $card) => new self(...(array) $card));
+    }
+
+    public static function forUserAndVocab(User $user, Vocab $vocab): Vector
+    {
+        return self::query($user->id)
+            ->whereIs('vocab_id', $vocab->id)
             ->execute()
             ->map(fn (object $card) => new self(...(array) $card));
     }
@@ -93,5 +102,10 @@ readonly class Card
             'translation' => $this->translation,
             default => throw new InvalidArgumentException("Unknown card direction '$this->direction'."),
         };
+    }
+
+    public function progress(): Progress
+    {
+        return Progress::findOrCreate(card: $this, user: user());
     }
 }

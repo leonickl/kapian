@@ -57,8 +57,10 @@ class Progress extends Model
             ->map(fn ($progress) => $progress[0]->count);
     }
 
-    public static function label(int $progress): string
+    public function label(): string
     {
+        $progress = (int) $this->progress;
+
         if ($progress === -1) {
             return 'Buried';
         }

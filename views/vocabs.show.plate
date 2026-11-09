@@ -25,6 +25,19 @@
             </div>
         {{ each; }}
     </div>
+
+    {{ if: $vocab->cards()->count() > 0 }}
+        <h2>Flashcards</h2>
+
+        <div id="cards">
+            {{ each: $vocab->cards() as $card }}
+                <div>
+                    <b>{{ $card->direction }}:</b>
+                    {{ $card->progress()->label() }}
+                </div>
+            {{ each; }}
+        </div>
+    {{ if; }}
 </div>
 
 <style>

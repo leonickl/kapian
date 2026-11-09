@@ -13,7 +13,7 @@ class CardboxController extends Controller
     public function index()
     {
         return view('cardbox', [
-            'progressLabel' => Progress::label(...),
+            'progressLabel' => fn (int $progress) => Progress::new(progress: $progress)->label(),
             'progresses' => Progress::levelCounts(),
         ]);
     }
