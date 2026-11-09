@@ -46,7 +46,7 @@
             height: 100,
             padding: 5,
             showOutline: false,
-            strokeAnimationSpeed: 1.85,
+            strokeAnimationSpeed: 1.5,
             delayBetweenStrokes: 200,
             radicalColor: '#a0beff',
             strokeColor: '#4b659f',
