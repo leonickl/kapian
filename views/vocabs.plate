@@ -30,7 +30,9 @@
                     </td>
                     <td class="td-actions">
                         {{ if: $vocab->canShow() }}
-                            <a href="{{ route('vocabs.show', vocabId: $vocab->id) }}" class="btn secondary">Show</a>
+                            <a href="{{ route('vocabs.show', vocabId: $vocab->id) }}">
+                                {{ plug: 'icons/info' }}
+                            </a>
                         {{ if; }}
                     </td>
                 </tr>
