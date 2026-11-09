@@ -23,7 +23,7 @@ class VocabController extends Controller
     {
         return view('vocabs.form', [
             'vocab' => null,
-            'tags' => Tag::labelsForUser(user()->id),
+            'tags' => Tag::allOwnLabels(user()->id),
             'selectedTags' => session()->take('previous-tags', []),
         ]);
     }
@@ -55,7 +55,7 @@ class VocabController extends Controller
 
         return view('vocabs.form', [
             'vocab' => $vocab,
-            'tags' => Tag::labelsForUser(user()->id),
+            'tags' => Tag::allOwnLabels(user()->id),
             'selectedTags' => $vocab->tags()
                 ->map(fn (Tag $tag) => $tag->label)
                 ->toArray(),

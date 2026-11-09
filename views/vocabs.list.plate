@@ -1,0 +1,39 @@
+<table class="styled w-full quotes">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Hanzi</th>
+            <th>Pinyin</th>
+            <th>Translation</th>
+            <th>Tags</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{ each: $vocabs as $vocab }}
+            <tr>
+                <td class="td-id">{{ $vocab->id }}</td>
+                <td class="td-hanzi">{{ $vocab->hanzi }}</td>
+                <td class="td-pinyin">{{ $vocab->pinyin }}</td>
+                <td class="td-translation">{{ $vocab->translation }}</td>
+                <td class="td-tags">
+                    {{ each: $vocab->tags() as $tag }}
+                        {{ if: $tag->canShow() }}
+                            <a href="{{ route('tags.show', tagId: $tag->id) }}">#{{ $tag->label }}</a>
+                        {{ else: }}
+                            <span>#{{ $tag->label }}</span>
+                        {{ if; }}
+                    {{ each; }}
+                </td>
+                <td class="td-actions">
+                    {{ if: $vocab->canShow() }}
+                        <a href="{{ route('vocabs.show', vocabId: $vocab->id) }}">
+                            {{ plug: 'icons/info' }}
+                        </a>
+                    {{ if; }}
+                </td>
+            </tr>
+        {{ each; }}
+    </tbody>
+</table>

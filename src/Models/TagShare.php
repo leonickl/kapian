@@ -14,6 +14,15 @@ class TagShare extends Model
 {
     protected $table = 'tag_shares';
 
+    public static function exists(Tag $tag, User $user): bool
+    {
+        return self::select()
+            ->whereIs('tag_id', $tag->id)
+            ->whereIs('recipient_id', $user->id)
+            ->get()
+            ->count() > 0;
+    }
+
     public function tag(): Tag
     {
         return Tag::find($this->tag_id);

@@ -33,7 +33,7 @@ class Tag extends Model
 
         return v(
             ...self::map($shared),
-            ...self::forUser(user()->id),
+            ...self::allOwn(user()->id),
         )
             ->sort(fn ($one, $other) => $one->label <=> $other->label);
     }
@@ -41,7 +41,7 @@ class Tag extends Model
     /**
      * @return Vector<Tag>
      */
-    public static function forUser(int $ownerId): Vector
+    public static function allOwn(int $ownerId): Vector
     {
         return self::select()
             ->whereIs('owner_id', $ownerId)
@@ -52,9 +52,9 @@ class Tag extends Model
     /**
      * @return list<string>
      */
-    public static function labelsForUser(int $ownerId): array
+    public static function allOwnLabels(int $ownerId): array
     {
-        return self::forUser($ownerId)
+        return self::allOwn($ownerId)
             ->map(fn (Tag $tag) => $tag->label)
             ->toArray();
     }
@@ -67,7 +67,7 @@ class Tag extends Model
             throw new InvalidArgumentException('Tag label must not be empty');
         }
 
-        $existing = self::forUser($ownerId)
+        $existing = self::allOwn($ownerId)
             ->filter(fn (Tag $tag) => mb_strtolower($tag->label) === mb_strtolower($label))
             ->first();
 
@@ -81,6 +81,18 @@ class Tag extends Model
     public static function normalize(string $label): string
     {
         return trim(preg_replace('/\s+/u', ' ', $label) ?? $label);
+    }
+
+    public function owner(): User
+    {
+        return User::find($this->owner_id);
+    }
+
+    public function label(): string
+    {
+        return $this->owner_id === user()->id
+            ? $this->label
+            : $this->label.' ('.$this->owner()->name().')';
     }
 
     public function vocabs(): Vector
@@ -112,11 +124,7 @@ class Tag extends Model
         $user ??= user();
 
         return $this->owner_id === $user->id
-            || TagShare::select()
-                ->whereIs('tag_id', $this->id)
-                ->whereIs('recipient_id', user()->id)
-                ->get()
-                ->count() > 0;
+            || TagShare::exists(tag: $this, user: user());
     }
 
     public function shares(): Vector
