@@ -2,8 +2,8 @@
 
 <div class="column">
     {{ each: $progresses as $progress => $count }}
-        {{ plug: 'button',
-            href: route('cardbox.study', level: $progress),
-            label: $progressLabel($progress).' ('.$count.')' }}
+        <a href="{{ route('cardbox.level', level: $progress) }}" class="btn">
+            {{ $progressLabel($progress).' ('.$count.')' }}
+        </a>
     {{ each; }}
 </div>

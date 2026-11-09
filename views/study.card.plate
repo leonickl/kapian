@@ -1,34 +1,10 @@
 <div class="flashcard">
-    {{ if: $card->direction === 'hanzi' }}
-        <span class="hanzi">{{ $card->hanzi }}</span>
-    {{ elif: $card->direction === 'pinyin' }}
-        <span>{{ $card->pinyin }}</span>
-    {{ elif: $card->direction === 'translation' }}
-        <span>{{ $card->translation }}</span>
-    {{ elif: $card->direction === 'strokes' }}
-        <span><em>strokes for</em> {{ $card->pinyin }}</span>
-    {{ else: }}
-        <em>unknown card direction '{{ $card->direction }}'</em>
-    {{ if; }}
+    {{ plug: 'flashcard.front', card: $card }}
 
     {{ if: $back }}
         <hr />
 
-        {{ if: $card->direction === 'hanzi' }}
-            <span>{{ $card->pinyin }}</span>
-            <span>{{ $card->translation }}</span>
-        {{ elif: $card->direction === 'pinyin' }}
-            <span>{{ $card->translation }}</span>
-            <span class="hanzi">{{ $card->hanzi }}</span>
-        {{ elif: $card->direction === 'translation' }}
-            <span>{{ $card->pinyin }}</span>
-            <span class="hanzi">{{ $card->hanzi }}</span>
-        {{ elif: $card->direction === 'strokes' }}
-            {{ plug: 'strokes', hanzis: mb_str_split($card->hanzi) }}
-            <span>{{ $card->translation }}</span>
-        {{ else: }}
-            <em>unknown card direction '{{ $card->direction }}'</em>
-        {{ if; }}
+        {{ plug: 'flashcard.back', card: $card }}
 
         {{ if: $card->siblings()->count() > 0 }}
             <hr />

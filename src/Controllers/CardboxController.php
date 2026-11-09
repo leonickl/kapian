@@ -18,6 +18,15 @@ class CardboxController extends Controller
         ]);
     }
 
+    public function level(int $level)
+    {
+        return view('cardbox.level', [
+            'level' => $level,
+            'label' => Progress::new(progress: $level)->label(),
+            'cards' => Card::forLevel($level, user()),
+        ]);
+    }
+
     public function study(int $level)
     {
         $user = user();

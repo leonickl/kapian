@@ -1,0 +1,11 @@
+{{ if: $card->direction === 'hanzi' }}
+    <span class="hanzi">{{ $card->hanzi }}</span>
+{{ elif: $card->direction === 'pinyin' }}
+    <span>{{ $card->pinyin }}</span>
+{{ elif: $card->direction === 'translation' }}
+    <span>{{ $card->translation }}</span>
+{{ elif: $card->direction === 'strokes' }}
+    <span><em>strokes for</em> {{ $card->pinyin }}</span>
+{{ else: }}
+    <em>unknown card direction '{{ $card->direction }}'</em>
+{{ if; }}

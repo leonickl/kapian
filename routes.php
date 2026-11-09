@@ -32,6 +32,7 @@ Route::group(
     Route::post('/tags/{tagId}/share/{recipientId}')->do(TagController::class, 'share')->name('tags.share'),
 
     Route::get('/cardbox')->do(CardboxController::class, 'index')->name('cardbox'),
+    Route::get('/cardbox/{level}')->do(CardboxController::class, 'level')->name('cardbox.level'),
     Route::post('/cardbox/{level}/study')->do(CardboxController::class, 'study')->name('cardbox.study'),
 
     Route::get('/study')->do(StudyController::class, 'index')->name('study'),

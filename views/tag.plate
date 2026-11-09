@@ -2,7 +2,6 @@
     route('main') => 'Home',
 ] }}
 
-
 {{ plug: 'button',
     href: route('tags.study', tagId: $tag->id),
     label: 'Study' }}

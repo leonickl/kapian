@@ -1,0 +1,71 @@
+{{ plug: 'head', title: $label, links: [
+    route('main') => 'Home',
+] }}
+
+{{ plug: 'button',
+    href: route('cardbox.study', level: $level),
+    label: 'Study' }}
+
+<h2>Vocabs</h2>
+
+<div class="flashcards" class="overflow-x-auto mt">
+    {{ each: $cards as $card }}
+        <div class="flashcard">
+            <a href="{{ route('vocabs.show', vocabId: $card->vocab()->id) }}" class="info">
+                {{ plug: 'icons/info' }}
+            </a>
+
+            {{ plug: 'flashcard.front', card: $card }}
+            <hr />
+            {{ plug: 'flashcard.back', card: $card }}
+        </div>
+    {{ each; }}
+</div>
+
+<style>
+    main {
+        width: 100%;
+    }
+
+    .flashcards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .flashcard {
+        flex: 0 0 250px;
+
+        background-color: #ffe79a;
+        color: navy;
+
+        padding: 1rem;
+        border-radius: 1rem;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        align-items: center;
+
+        position: relative;
+    }
+
+    .info {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .flashcard hr {
+        width: 70%;
+        margin-block: 1rem;
+        border-color: navy;
+        opacity: .3;
+    }
+
+    .flashcard .hanzi {
+        font-size: 30px;
+    }
+</style>

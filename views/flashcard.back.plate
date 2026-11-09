@@ -1,0 +1,15 @@
+{{ if: $card->direction === 'hanzi' }}
+    <span>{{ $card->pinyin }}</span>
+    <span>{{ $card->translation }}</span>
+{{ elif: $card->direction === 'pinyin' }}
+    <span>{{ $card->translation }}</span>
+    <span class="hanzi">{{ $card->hanzi }}</span>
+{{ elif: $card->direction === 'translation' }}
+    <span>{{ $card->pinyin }}</span>
+    <span class="hanzi">{{ $card->hanzi }}</span>
+{{ elif: $card->direction === 'strokes' }}
+    {{ plug: 'strokes', hanzis: mb_str_split($card->hanzi) }}
+    <span>{{ $card->translation }}</span>
+{{ else: }}
+    <em>unknown card direction '{{ $card->direction }}'</em>
+{{ if; }}
