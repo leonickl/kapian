@@ -3,30 +3,59 @@
     route('vocabs.edit', vocabId: $vocab->id) => 'Edit',
 ] }}
 
-<div>
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+
+<div id="details">
     {{ if: $vocab->hanzi }}
-        <div>Hanzi:</div>
-        <div>{{ $vocab->hanzi }}</div>
+        <div id="hanzi"></div>
     {{ if; }}
 
     {{ if: $vocab->pinyin }}
-        <div>Pinyin:</div>
-        <div>{{ $vocab->pinyin }}</div>
+        <div id="pinyin">
+            <em>{{ $vocab->pinyin }}</em>
+        </div>
     {{ if; }}
 
     {{ if: $vocab->translation }}
-        <div>Translation:</div>
-        <div>{{ $vocab->translation }}</div>
+        <div id="translation">{{ $vocab->translation }}</div>
     {{ if; }}
 
-    <div class="mt">
+    <div id="tags" class="mt">
         {{ each: $vocab->tags() as $tag }}
-            <div class="tag-chip">{{ $tag->label }}</div>
+            <div class="tag-chip">
+                <a href="{{ route('tags.show', tagId: $tag->id) }}">{{ $tag->label }}</a>
+            </div>
         {{ each; }}
     </div>
 </div>
 
 <style>
+    #details {
+        display: grid;
+        grid-template-columns: 60% 40%;
+        width: min-content;
+        min-width: 300px;
+    }
+
+    #hanzi {
+        grid-area: 1 / 1 / 3 / 2;
+    }
+
+    #pinyin {
+        grid-area: 1 / 2 / 2 / 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+    }
+
+    #translation {
+        grid-area: 2 / 2 / 3 / 3;
+    }
+
+    #tags {
+        grid-area: 3 / 1 / 4 / 3;
+    }
+
     .tag-chip {
         display: inline-flex;
         align-items: center;
@@ -38,4 +67,61 @@
         font-size: 0.9rem;
         line-height: 1.5;
     }
+
+    .tag-chip a {
+        color: #fff;
+    }
+
+    .tag-chip a:hover {
+        opacity: .6;
+        text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+        #details {
+            grid-template-columns: 45% 45%;
+            column-gap: 2rem;
+            width: 100%;
+            min-width: 0px;
+        }
+
+        #hanzi {
+            grid-area: 1 / 1 / 2 / 3;
+            text-align: center;
+        }
+
+        #pinyin {
+            grid-area: 2 / 1 / 3 / 2;
+            display: block;
+            text-align: right;
+        }
+
+        #translation {
+            grid-area: 2 / 2 / 3 / 3;
+        }
+
+        #tags {
+            margin-top: 3rem;
+            grid-area: 3 / 1 / 4 / 3;
+            text-align: center;
+        }
+    }
 </style>
+
+<script>
+    const hanzi = {{ json: $vocab->hanzi, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT }};
+
+    const writer = HanziWriter.create('hanzi', hanzi, {
+        width: 100,
+        height: 100,
+        padding: 5,
+        showOutline: false,
+        strokeAnimationSpeed: 1.85,
+        delayBetweenStrokes: 200,
+        radicalColor: '#3b82f6'
+    });
+
+    document.getElementById('hanzi').addEventListener('click', function() {
+        writer.animateCharacter();
+    });
+</script>
