@@ -5,6 +5,7 @@ use App\Controllers\LoginController;
 use App\Controllers\MainController;
 use App\Controllers\StudyController;
 use App\Controllers\TagController;
+use App\Controllers\CardController;
 use App\Controllers\VocabController;
 use App\Middleware\RememberSession;
 use PXP\Auth\Controllers\VerificationController;
@@ -25,6 +26,8 @@ Route::group(
     Route::get('/vocabs/{vocabId}')->do(VocabController::class, 'show')->name('vocabs.show'),
     Route::get('/vocabs/{vocabId}/edit')->do(VocabController::class, 'edit')->name('vocabs.edit'),
     Route::post('/vocabs/{vocabId}')->do(VocabController::class, 'update')->name('vocabs.update'),
+
+    Route::post('/vocabs/{vocabId}/cards/{direction}')->do(CardController::class, 'unbury')->name('cards.unbury'),
 
     Route::get('/tags')->do(TagController::class, 'index')->name('tags'),
     Route::get('/tags/{tagId}')->do(TagController::class, 'show')->name('tags.show'),

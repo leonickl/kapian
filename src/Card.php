@@ -44,11 +44,11 @@ readonly class Card
             ->map(fn (object $card) => new self(...(array) $card));
     }
 
-    public static function find(QueueItem $item): ?Card
+    public static function find(User $user, Vocab $vocab, string $direction): ?Card
     {
-        return self::query($item->user_id)
-            ->whereIs('vocab_id', $item->vocab_id)
-            ->whereIs('direction', $item->direction)
+        return self::query($user->id)
+            ->whereIs('vocab_id', $vocab->id)
+            ->whereIs('direction', $direction)
             ->execute()
             ->map(fn (object $card) => new self(...(array) $card))
             ->first();

@@ -8,7 +8,7 @@
 
 <h2>Vocabs</h2>
 
-<div class="flashcards" class="overflow-x-auto mt">
+<div class="flashcards overflow-x-auto mt">
     {{ each: $cards as $card }}
         <div class="flashcard">
             <a href="{{ route('vocabs.show', vocabId: $card->vocab()->id) }}" class="info">
@@ -18,6 +18,18 @@
             {{ plug: 'flashcard.front', card: $card }}
             <hr />
             {{ plug: 'flashcard.back', card: $card }}
+
+            {{ if: $level < 0 }}
+                <div class="mt">
+                    {{ plug: 'button',
+                        href: route('cards.unbury',
+                            vocabId: $card->vocab()->id,
+                            direction: $card->direction,
+                        ),
+                        classes: 'secondary',
+                        label: 'Unbury' }}
+                </div>
+            {{ if; }}
         </div>
     {{ each; }}
 </div>

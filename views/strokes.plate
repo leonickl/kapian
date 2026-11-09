@@ -1,12 +1,14 @@
+{{ php: $uid = uniqid() }}
+
 <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
 
 <div id="hanzis">
     {{ each: $hanzis as $i => $hanzi }}
-        <div id="hanzi-symbol-{{ $i }}" class="hanzi-symbol" data-hanzi="{{ $hanzi }}"></div>
+        <div id="hanzi-symbol-{{ $uid }}-{{ $i }}" class="hanzi-symbol" data-hanzi="{{ $hanzi }}"></div>
     {{ each; }}
 </div>
 
-<script>
+<script type="module">
     const symbols = document.querySelectorAll('.hanzi-symbol');
 
     symbols.forEach(symbol => {

@@ -59,6 +59,10 @@ class QueueItem extends Model
 
     public function card(): ?Card
     {
-        return Card::find($this);
+        return Card::find(
+            user: $this->user(), 
+            vocab: $this->vocab(), 
+            direction: $this->direction,
+        );
     }
 }
