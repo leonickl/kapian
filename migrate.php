@@ -128,6 +128,27 @@ $db->sql(<<<'SQL'
             deleted_at,
             user_id
         from visible_vocabs
+
+        union
+
+        select vv.id as vocab_id,
+            'strokes' as direction,
+            vv.pinyin as front,
+            vv.hanzi,
+            vv.pinyin,
+            vv.translation,
+            vv.deleted_at,
+            vv.user_id
+        from visible_vocabs as vv
+        inner join tag_vocab
+            on vv.id = tag_vocab.vocab_id
+            and tag_vocab.deleted_at is null
+        inner join tags
+            on tags.id = tag_vocab.tag_id
+            and tags.label = 'strokes'
+            and tags.deleted_at is null
+        where vv.hanzi is not null
+            and vv.hanzi is not ''
     ) as cards
 
     left join progresses on cards.vocab_id = progresses.vocab_id

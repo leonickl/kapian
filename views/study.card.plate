@@ -5,6 +5,8 @@
         <span>{{ $card->pinyin }}</span>
     {{ elif: $card->direction === 'translation' }}
         <span>{{ $card->translation }}</span>
+    {{ elif: $card->direction === 'strokes' }}
+        <span><em>strokes for</em> {{ $card->pinyin }}</span>
     {{ else: }}
         <em>unknown card direction '{{ $card->direction }}'</em>
     {{ if; }}
@@ -21,6 +23,9 @@
         {{ elif: $card->direction === 'translation' }}
             <span>{{ $card->pinyin }}</span>
             <span class="hanzi">{{ $card->hanzi }}</span>
+        {{ elif: $card->direction === 'strokes' }}
+            {{ plug: 'strokes', hanzis: mb_str_split($card->hanzi) }}
+            <span>{{ $card->translation }}</span>
         {{ else: }}
             <em>unknown card direction '{{ $card->direction }}'</em>
         {{ if; }}
@@ -46,39 +51,39 @@
 
     {{ if; }}
 
-        {{ if: $back }}
-            <div class="row between mt">
+    {{ if: $back }}
+        <div class="row between mt">
 
-                {{ plug: 'button',
-                    href: route('study.result', result: 'correct'),
-                    styles: 'background-color: #209920',
-                    label: 'Correct' }}
+            {{ plug: 'button',
+                href: route('study.result', result: 'correct'),
+                styles: 'background-color: #209920',
+                label: 'Correct' }}
 
-                {{ plug: 'button',
-                    href: route('study.result', result: 'again'),
-                    styles: 'background-color: #e69f1d',
-                    label: 'Again' }}
+            {{ plug: 'button',
+                href: route('study.result', result: 'again'),
+                styles: 'background-color: #e69f1d',
+                label: 'Again' }}
 
-                {{ plug: 'button',
-                    href: route('study.result', result: 'wrong'),
-                    styles: 'background-color: #d21111',
-                    label: 'Wrong' }}
+            {{ plug: 'button',
+                href: route('study.result', result: 'wrong'),
+                styles: 'background-color: #d21111',
+                label: 'Wrong' }}
 
-                <button id="more" class="btn secondary">
-                    <div>...</div>
-                </button>
+            <button id="more" class="btn secondary">
+                <div>...</div>
+            </button>
 
-            </div>
-        {{ else: }}
-            <div class="row between mt">
-                <a href="{{ route('study.back') }}" class="btn">Check</a>
+        </div>
+    {{ else: }}
+        <div class="row between mt">
+            <a href="{{ route('study.back') }}" class="btn">Check</a>
 
-                {{ plug: 'button',
-                    href: route('study.skip'),
-                    classes: 'secondary',
-                    label: 'Skip' }}
-            </div>
-        {{ if; }}
+            {{ plug: 'button',
+                href: route('study.skip'),
+                classes: 'secondary',
+                label: 'Skip' }}
+        </div>
+    {{ if; }}
 </div>
 
 <p id="bottom-info" class="text-center">{{ $left }} cards left to study </p>

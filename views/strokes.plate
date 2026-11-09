@@ -1,0 +1,44 @@
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+
+<div id="hanzis">
+    {{ each: $hanzis as $i => $hanzi }}
+        <div id="hanzi-symbol-{{ $i }}" class="hanzi-symbol" data-hanzi="{{ $hanzi }}"></div>
+    {{ each; }}
+</div>
+
+<script>
+    const symbols = document.querySelectorAll('.hanzi-symbol');
+
+    symbols.forEach(symbol => {
+        const hanzi = symbol.getAttribute('data-hanzi');
+
+        const writer = HanziWriter.create(symbol.id, hanzi, {
+            width: 100,
+            height: 100,
+            padding: 5,
+            showOutline: false,
+            strokeAnimationSpeed: 1.5,
+            delayBetweenStrokes: 200,
+            radicalColor: '#a0beff',
+            strokeColor: '#4b659f',
+            onLoadCharDataSuccess:
+                () => symbol.addEventListener('click', () => writer.animateCharacter()),
+            onLoadCharDataError:
+                (err) => {
+                    console.log(`No hanzi for '${hanzi}' was found.`);
+                    symbol.innerHTML = hanzi
+                    symbol.style.fontSize = '30px'
+                    symbol.style.paddingTop = '30px'
+                },
+        });
+    });
+</script>
+
+<style>
+    #hanzis {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+</style>
