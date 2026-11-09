@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\Card;
 use PXP\Auth\Models\User;
-use PXP\Data\Model;
 use PXP\Data\DB;
+use PXP\Data\Model;
 
 /**
  * @property-read int $id

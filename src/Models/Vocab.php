@@ -131,7 +131,7 @@ class Vocab extends Model
         $user ??= user();
 
         return $this->tags()
-            ->filter(fn (Tag $tag)  => $tag->isSharedWith($user))
+            ->filter(fn (Tag $tag) => $tag->isSharedWith($user))
             ->count() > 0;
     }
 

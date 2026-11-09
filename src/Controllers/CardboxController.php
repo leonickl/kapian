@@ -3,11 +3,10 @@
 namespace App\Controllers;
 
 use App\Card;
+use App\Models\Progress;
 use App\Models\QueueItem;
-use PXP\Data\DB;
 use PXP\Http\Controllers\Controller;
 use PXP\Lib\Notification;
-use App\Models\Progress;
 
 class CardboxController extends Controller
 {

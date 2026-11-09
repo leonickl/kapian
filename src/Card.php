@@ -5,9 +5,9 @@ namespace App;
 use App\Models\QueueItem;
 use App\Models\Tag;
 use App\Models\Vocab;
+use InvalidArgumentException;
 use PXP\Auth\Models\User;
 use PXP\Ds\Vector;
-use InvalidArgumentException;
 
 readonly class Card
 {
