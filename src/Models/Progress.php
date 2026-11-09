@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Card;
 use PXP\Auth\Models\User;
 use PXP\Data\Model;
+use PXP\Data\DB;
 
 /**
  * @property-read int $id
@@ -45,6 +46,32 @@ class Progress extends Model
             direction: $card->direction,
             user_id: $user->id,
         );
+    }
+
+    public static function levelCounts()
+    {
+        return DB::init()
+            ->select('select progress, count(*) as count from cards '
+                .'where user_id = ? group by progress', [user()->id])
+            ->groupBy(fn ($row) => $row->progress)
+            ->map(fn ($progress) => $progress[0]->count);
+    }
+
+    public static function label(int $progress): string
+    {
+        if ($progress === -1) {
+            return 'Buried';
+        }
+
+        if ($progress === 0) {
+            return 'New';
+        }
+
+        if ($progress < 0) {
+            return "Basement $progress";
+        }
+
+        return "Level $progress";
     }
 
     public function vocab(): Vocab
