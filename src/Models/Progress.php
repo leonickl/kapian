@@ -84,9 +84,14 @@ class Progress extends Model
         return User::findBy($this->user_id);
     }
 
+    /**
+     * Apply a delta to the current progress level.
+     * Can reset at most to first level, because
+     * zero is only for new cards.
+     */
     public function delta(int $i): self
     {
-        $this->progress = max(0, $this->progress + $i);
+        $this->progress = max(1, $this->progress + $i);
 
         return $this;
     }
