@@ -145,7 +145,7 @@ $db->sql(<<<'SQL'
             and tag_vocab.deleted_at is null
         inner join tags
             on tags.id = tag_vocab.tag_id
-            and tags.label = 'strokes'
+            and tags.strokes = 1
             and tags.deleted_at is null
         where vv.hanzi is not null
             and vv.hanzi is not ''
