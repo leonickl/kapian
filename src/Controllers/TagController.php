@@ -42,6 +42,44 @@ class TagController extends Controller
         ]);
     }
 
+    public function edit(int $tagId)
+    {
+        $tag = Tag::find($tagId);
+
+        if (! $tag->canEdit()) {
+            Notification::warn('You cannot edit this tag.');
+
+            return redirect('tags.show', $tagId);
+        }
+
+        return view('tags.edit', [
+            'tag' => $tag,
+        ]);
+    }
+
+    public function update(int $tagId)
+    {
+        $tag = Tag::find($tagId);
+
+        if (! $tag->canEdit()) {
+            Notification::warn('You cannot edit this tag.');
+
+            return redirect('tags.show', $tagId);
+        }
+
+        $data = request()->validate(fn ($req) => [
+            $req->label->string(),
+        ]);
+
+        $tag->label = $data->label;
+        $tag->save();
+
+        Notification::success('Successfully updated tag.');
+
+        return redirect('tags.show', $tagId);
+    }
+
+
     public function share(int $tagId, int $recipientId)
     {
         $tag = Tag::find($tagId);

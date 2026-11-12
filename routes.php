@@ -31,6 +31,8 @@ Route::group(
 
     Route::get('/tags')->do(TagController::class, 'index')->name('tags'),
     Route::get('/tags/{tagId}')->do(TagController::class, 'show')->name('tags.show'),
+    Route::get('/tags/{tagId}')->do(TagController::class, 'edit')->name('tags.edit'),
+    Route::post('/tags/{tagId}')->do(TagController::class, 'update')->name('tags.update'),
     Route::post('/tags/{tagId}/study')->do(TagController::class, 'study')->name('tags.study'),
     Route::post('/tags/{tagId}/share/{recipientId}')->do(TagController::class, 'share')->name('tags.share'),
 

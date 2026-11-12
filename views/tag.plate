@@ -1,5 +1,6 @@
 {{ plug: 'head', title: "#{$tag->label()}", links: [
     route('main') => 'Home',
+    route('tags.edit', tagId: $tag->id) => 'Edit',
 ] }}
 
 {{ plug: 'button',

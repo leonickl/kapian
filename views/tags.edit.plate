@@ -1,0 +1,10 @@
+{{ plug: 'head', title: "#{$tag->label()}", links: [
+    route('main') => 'Home',
+] }}
+
+<form action="{{ route('tags.update', tagId: $tag->id) }}" method="post" class="column">
+    <label for="label">Label:</label>
+    <input type="text" value="{{ $tag->label }}" name="label" id="label" />
+
+    <input type="submit" value="Save" class="btn" />
+</form>

@@ -119,6 +119,13 @@ class Tag extends Model
         return $this->owner_id === $user->id;
     }
 
+    public function canEdit(?User $user = null): bool
+    {
+        $user ??= user();
+
+        return $this->owner_id === $user->id;
+    }
+
     public function canShow(?User $user = null): bool
     {
         $user ??= user();
