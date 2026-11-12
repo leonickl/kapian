@@ -4,12 +4,12 @@
 
 <div id="hanzis">
     {{ each: $hanzis as $i => $hanzi }}
-        <div id="hanzi-symbol-{{ $uid }}-{{ $i }}" class="hanzi-symbol" data-hanzi="{{ $hanzi }}"></div>
+        <div id="hanzi-symbol-{{ $uid }}-{{ $i }}" class="hanzi-symbol-{{ $uid }}" data-hanzi="{{ $hanzi }}"></div>
     {{ each; }}
 </div>
 
 <script type="module">
-    const symbols = document.querySelectorAll('.hanzi-symbol');
+    const symbols = document.querySelectorAll('.hanzi-symbol-{{ $uid }}');
 
     symbols.forEach(symbol => {
         const hanzi = symbol.getAttribute('data-hanzi');
