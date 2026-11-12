@@ -12,6 +12,7 @@ use PXP\Ds\Vector;
  * @property-read int $id
  * @property-read int $owner_id
  * @property-read string $label
+ * @property-read boolean $strokes
  */
 class Tag extends Model
 {

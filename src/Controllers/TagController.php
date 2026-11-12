@@ -49,7 +49,7 @@ class TagController extends Controller
         if (! $tag->canEdit()) {
             Notification::warn('You cannot edit this tag.');
 
-            return redirect('tags.show', $tagId);
+            return redirect('tags.show', tagId: $tagId);
         }
 
         return view('tags.edit', [
@@ -64,7 +64,7 @@ class TagController extends Controller
         if (! $tag->canEdit()) {
             Notification::warn('You cannot edit this tag.');
 
-            return redirect('tags.show', $tagId);
+            return redirect('tags.show', tagId: $tagId);
         }
 
         $data = request()->validate(fn ($req) => [
@@ -76,7 +76,29 @@ class TagController extends Controller
 
         Notification::success('Successfully updated tag.');
 
-        return redirect('tags.show', $tagId);
+        return redirect('tags.show', tagId: $tagId);
+    }
+
+    public function toggleStrokes(int $tagId)
+    {
+        $tag = Tag::find($tagId);
+
+        if (! $tag->canEdit()) {
+            Notification::warn('You cannot edit this tag.');
+
+            return redirect('tags.show', tagId: $tagId);
+        }
+
+        $tag->strokes = ! $tag->strokes;
+        $tag->save();
+
+        if ($tag->strokes) {
+            Notification::success('Enabled stroke cards for this tag.');
+        } else {
+            Notification::warn('Disabled stroke cards for this tag.');
+        }
+
+        return redirect('tags.show', tagId: $tagId);
     }
 
 

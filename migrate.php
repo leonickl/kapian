@@ -172,3 +172,7 @@ $db->create('queue', [
     'vocab_id' => 'int not null references vocabs(id)',
     'direction' => 'string not null',
 ]);
+
+$db->addColumns('tags', [
+    'strokes' => 'boolean not null default 0',
+]);

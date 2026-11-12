@@ -7,9 +7,22 @@
     href: route('tags.study', tagId: $tag->id),
     label: 'Study' }}
 
-{{ if: $tag->canShare() }}
-    <div class="mb">
-        <h2>Members</h2>
+<div class="overflow-x-auto mt mb">
+    <h2>Vocabs</h2>
+
+    {{ plug: 'vocabs.list', vocabs: $tag->vocabs() }}
+</div>
+
+<div class="mt">
+    <h2>Tag Settings</h2>
+
+    {{ plug: 'button',
+        href: route('tags.toggle-strokes', tagId: $tag->id),
+        classes: 'secondary',
+        label: $tag->strokes ? 'Disable stroke cards' : 'Enable stroke cards' }}
+
+    {{ if: $tag->canShare() }}
+        <h3 class="mt">Members:</h3>
 
         <div class="people row">
             {{ each: $people as $person }}
@@ -20,13 +33,7 @@
                 </form>
             {{ each; }}
         </div>
-    </div>
-{{ if; }}
-
-<div class="overflow-x-auto mt">
-    <h2>Vocabs</h2>
-
-    {{ plug: 'vocabs.list', vocabs: $tag->vocabs() }}
+    {{ if; }}
 </div>
 
 <style>
