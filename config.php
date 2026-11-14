@@ -40,6 +40,5 @@ return [
         'name' => 'Kǎpiàn',
         'short' => 'Kǎpiàn',
         'description' => 'A Chinese flashcard trainer',
-        'icon' => path('assets/icon.svg'),
     ],
 ];

@@ -19,7 +19,7 @@ class PWAController extends Controller
             "description" => config('pwa.description'),
             "icons" => [
                 [
-                    "src" => config('pwa.icon'),
+                    "src" => '/icon.svg',
                     "sizes" => "any",
                     "type" => "image/svg+xml",
                 ],
@@ -31,7 +31,7 @@ class PWAController extends Controller
     {
         header('Content-Type: image/svg+xml');
 
-        return file_get_contents(config('pwa.icon'));
+        return file_get_contents(path('assets/icon.svg'));
     }
 
     public function sw()
