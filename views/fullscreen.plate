@@ -22,6 +22,10 @@
 </head>
 
 <body>
+    <div id="open-fullscreen">
+        {{ plug: 'icons/fullscreen' }}
+    </div>
+
     <main>
         {{ each: notifications() ?? [] as $notification }}
             <div class="notification {{ $notification->type }}">
@@ -32,6 +36,29 @@
         {{ % $slot }}
     </main>
 
+    <script>
+        function fullscreen(elem) {
+            if (elem.requestFullscreen) {
+                return elem.requestFullscreen()
+            }
+            
+            if (elem.webkitRequestFullscreen) {
+                return elem.webkitRequestFullscreen()
+            }
+            
+            if (elem.msRequestFullscreen) {
+                return elem.msRequestFullscreen()
+            }
+        }
+
+        const openFullscreen = document.querySelector('#open-fullscreen')
+        const main = document.querySelector('main')
+
+        openFullscreen.addEventListener('click', () => {
+            fullscreen(main)
+        })
+    </script>
+
     <style>
         main {
             background: none;
@@ -40,6 +67,20 @@
 
         .notification {
             opacity: .6;
+        }
+
+        #open-fullscreen {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background: var(--card-background);
+            height: 35px;
+            aspect-ratio: 1;
+            border-radius: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
     </style>
 </body>
