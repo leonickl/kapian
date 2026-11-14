@@ -7,6 +7,7 @@ use App\Controllers\StudyController;
 use App\Controllers\TagController;
 use App\Controllers\CardController;
 use App\Controllers\VocabController;
+use App\Controllers\PWAController;
 use App\Middleware\RememberSession;
 use PXP\Auth\Controllers\VerificationController;
 use PXP\Auth\Middleware\InteractiveAuth;
@@ -72,4 +73,9 @@ Route::group(
 
 Route::group(
     Route::get('/css/{file}')->do(AssetController::class, 'css')->name('css'),
+
+    Route::get('/manifest.json')->do(PWAController::class, 'manifest'),
+    Route::get('/icon.svg')->do(PWAController::class, 'icon'),
+    Route::get('/app.js')->do(PWAController::class, 'js'),
+    Route::get('/sw.js')->do(PWAController::class, 'sw'),
 );

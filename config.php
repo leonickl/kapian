@@ -35,4 +35,11 @@ return [
     'resolver' => [
         Identity::class => User::class,
     ],
+
+    'pwa' => [
+        'name' => 'Kǎpiàn',
+        'short' => 'Kǎpiàn',
+        'description' => 'A Chinese flashcard trainer',
+        'icon' => path('assets/icon.svg'),
+    ],
 ];
