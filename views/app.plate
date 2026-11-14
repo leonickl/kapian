@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="{{ route('css', file: $file) }}" />
     {{ each; }}
 
+    <script src="/app.js"></script>
+
     {{ each: config('js', []) as $file }}
         <script src="{{ route('js', file: $file) }}"></script>
     {{ each; }}
