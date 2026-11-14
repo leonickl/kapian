@@ -101,7 +101,6 @@ class TagController extends Controller
         return redirect('tags.show', tagId: $tagId);
     }
 
-
     public function share(int $tagId, int $recipientId)
     {
         $tag = Tag::find($tagId);

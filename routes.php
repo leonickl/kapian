@@ -35,7 +35,6 @@ Route::group(
     Route::get('/tags/{tagId}/edit')->do(TagController::class, 'edit')->name('tags.edit'),
     Route::post('/tags/{tagId}')->do(TagController::class, 'update')->name('tags.update'),
     Route::post('/tags/{tagId}/toggle-strokes')->do(TagController::class, 'toggleStrokes')->name('tags.toggle-strokes'),
-    Route::post('/tags/{tagId}/merge')->do(TagController::class, 'merge')->name('tags.merge'),
     Route::post('/tags/{tagId}/study')->do(TagController::class, 'study')->name('tags.study'),
     Route::post('/tags/{tagId}/share/{recipientId}')->do(TagController::class, 'share')->name('tags.share'),
 
