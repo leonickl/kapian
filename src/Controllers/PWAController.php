@@ -37,6 +37,7 @@ class PWAController extends Controller
     public function sw()
     {
         header('Content-Type: application/javascript');
+        header('Cache-Control: no-cache');
 
         return file_get_contents(path('assets/js/sw.js'));
     }
