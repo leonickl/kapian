@@ -70,6 +70,7 @@
         }
 
         #open-fullscreen {
+            display: none;
             position: fixed;
             top: 1rem;
             left: 1rem;
@@ -77,7 +78,7 @@
             height: 35px;
             aspect-ratio: 1;
             border-radius: 40%;
-            display: flex;
+            /* display: flex; */
             align-items: center;
             justify-content: center;
             cursor: pointer;
