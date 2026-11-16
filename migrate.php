@@ -93,7 +93,8 @@ $db->sql(<<<'SQL'
         cards.pinyin,
         cards.translation,
         cards.user_id,
-        coalesce(progresses.progress, 0) as progress
+        coalesce(progresses.progress, 0) as progress,
+        progresses.modified_at as studied_at
     from (
         select id as vocab_id,
             'hanzi' as direction,

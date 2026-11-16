@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use PXP\Auth\Models\User;
 use PXP\Ds\Vector;
 use App\Models\Progress;
+use Carbon\Carbon;
 
 readonly class Card
 {
@@ -18,6 +19,8 @@ readonly class Card
         public ?string $hanzi,
         public ?string $pinyin,
         public ?string $translation,
+        public int $progress,
+        public ?string $studied_at,
         mixed ...$others,
     ) {}
 
@@ -107,5 +110,33 @@ readonly class Card
     public function progress(): Progress
     {
         return Progress::findOrCreate(card: $this, user: user());
+    }
+
+    /**
+     * Vever study buried cards. Study new cards
+     * now, freshly known cards tomorrow, then
+     * larger intervals up to finally 1 year
+     * as the long-term refresh period.
+     */
+    public function nextStudyInterval(): int|false
+    {
+        // shift the level up by 1
+        // 0: buried, 1: new, 2...: cardbox levels
+        $prog = (int)max(-1, $this->progress) + 1;
+
+        return [false, 0, 1, 3, 7, 14, 30, 60, 120, 240]
+            [$prog] ?? 365;
+    }
+
+    public function nextStudy(): ?Carbon
+    {
+        $interval = $this->nextStudyInterval();
+
+        if ($interval === false) {
+            return null;
+        }
+
+        return new Carbon($this->studied_at)
+            ->addDays($interval);
     }
 }
