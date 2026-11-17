@@ -1,0 +1,9 @@
+{{ plug: 'head', title: 'Schedule', links: [route('main') => 'Home'] }}
+
+<div class="column">
+    {{ each: $counts as $date => $count }}
+        <a href="{{ route('schedule.date', date: $date) }}" class="btn {{ $date < $today ? 'warn' : '' }}">
+            {{ $date.' ('.$count.')' }}
+        </a>
+    {{ each; }}
+</div>

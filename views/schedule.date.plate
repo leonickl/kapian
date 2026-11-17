@@ -1,0 +1,10 @@
+{{ plug: 'head', title: "Schedule for $date", links: [
+    route('main') => 'Home',
+    route('schedule') => 'Schedule',
+] }}
+
+{{ plug: 'button',
+    href: route('schedule.study', date: $date),
+    label: 'Study' }}
+
+<p class="mt text-center">{{ $count }} cards are due here.</p>

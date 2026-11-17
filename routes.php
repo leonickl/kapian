@@ -8,6 +8,7 @@ use App\Controllers\TagController;
 use App\Controllers\CardController;
 use App\Controllers\VocabController;
 use App\Controllers\PWAController;
+use App\Controllers\ScheduleController;
 use App\Middleware\RememberSession;
 use PXP\Auth\Controllers\VerificationController;
 use PXP\Auth\Middleware\InteractiveAuth;
@@ -41,6 +42,10 @@ Route::group(
     Route::get('/cardbox')->do(CardboxController::class, 'index')->name('cardbox'),
     Route::get('/cardbox/{level}')->do(CardboxController::class, 'level')->name('cardbox.level'),
     Route::post('/cardbox/{level}/study')->do(CardboxController::class, 'study')->name('cardbox.study'),
+
+    Route::get('/schedule')->do(ScheduleController::class, 'index')->name('schedule'),
+    Route::get('/schedule/{date}')->do(ScheduleController::class, 'date')->name('schedule.date'),
+    Route::post('/schedule/{date}/study')->do(ScheduleController::class, 'study')->name('schedule.study'),
 
     Route::get('/study')->do(StudyController::class, 'index')->name('study'),
     Route::get('/study/front')->do(StudyController::class, 'front')->name('study.front'),

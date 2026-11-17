@@ -118,22 +118,22 @@ readonly class Card
      * larger intervals up to finally 1 year
      * as the long-term refresh period.
      */
-    public function nextStudyInterval(): int|false
+    public function nextStudyInterval(): int|bool
     {
-        // shift the level up by 1
-        // 0: buried, 1: new, 2...: cardbox levels
+        // shift the level up by 1:
+        // [buried, new cards, level 1, level 2, ...]
         $prog = (int)max(-1, $this->progress) + 1;
 
-        return [false, 0, 1, 3, 7, 14, 30, 60, 120, 240]
+        return [false, true, 0, 1, 3, 7, 14, 30, 60, 120, 240]
             [$prog] ?? 365;
     }
 
-    public function nextStudy(): ?Carbon
+    public function nextStudy(): Carbon|bool
     {
         $interval = $this->nextStudyInterval();
 
-        if ($interval === false) {
-            return null;
+        if (is_bool($interval)) {
+            return $interval;
         }
 
         return new Carbon($this->studied_at)
