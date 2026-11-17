@@ -12,6 +12,7 @@
     {{ else: }}
         <p>Currently, there are no cards left in the study-queue. Try to add some:</p>
         <a href="{{ route('tags') }}" class="btn">Browse Tags</a>
+        <a href="{{ route('schedule') }}" class="btn">Browse Schedule</a>
         <a href="{{ route('cardbox') }}" class="btn">Browse Cardbox</a>
     {{ if; }}
 </div>
