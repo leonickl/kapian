@@ -11,9 +11,23 @@ class ScheduleController extends Controller
 {
     public function index()
     {
+        $today = date('Y-m-d');
+
+        $colour = function (string $date) use ($today) {
+            if (in_array($date, ['Buried', 'New'])) {
+                return 'gray';
+            }
+
+            return match ($date <=> $today) {
+                -1 => 'warn',
+                0 => '',
+                1 => 'secondary',
+            };
+        };
+
         return view('schedule', [
             'counts' => $this->dateCounts(),
-            'today' => date('Y-m-d'),
+            'colour' => $colour,
         ]);
     }
 
@@ -72,10 +86,11 @@ class ScheduleController extends Controller
             ->map(fn ($cards) => count($cards))
             ->toArray();
 
-        // sort by keys and preserve them
-        $dates = array_flip($dates);
-        uasort($dates, fn ($one, $other) => $one <=> $other);
-        $dates = array_flip($dates);
+        if (! array_key_exists(date('Y-m-d'), $dates)) {
+            $dates[date('Y-m-d')] = 0;
+        }
+
+        ksort($dates);
 
         return $dates;
     }

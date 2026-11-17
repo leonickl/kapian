@@ -2,8 +2,14 @@
 
 <div class="column">
     {{ each: $counts as $date => $count }}
-        <a href="{{ route('schedule.date', date: $date) }}" class="btn {{ $date < $today ? 'warn' : '' }}">
+        <a href="{{ route('schedule.date', date: $date) }}" class="btn {{ $colour($date) }}">
             {{ $date.' ('.$count.')' }}
         </a>
     {{ each; }}
 </div>
+
+<style>
+    .btn.gray {
+        background-color: gray;
+    }
+</style>
