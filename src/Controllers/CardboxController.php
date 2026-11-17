@@ -7,14 +7,24 @@ use App\Models\Progress;
 use App\Models\QueueItem;
 use PXP\Http\Controllers\Controller;
 use PXP\Lib\Notification;
+use App\Palette;
 
 class CardboxController extends Controller
 {
     public function index()
     {
+        $counts = Progress::levelCounts()->toArray();
+        $shades = Palette::shades(count($counts), hue: 40, lMax: .8, lMin: .43);
+
+        $colours = array_combine(
+            keys: array_keys($counts),
+            values: $shades,
+        );
+
         return view('cardbox', [
             'progressLabel' => fn (int $progress) => Progress::new(progress: $progress)->label(),
-            'progresses' => Progress::levelCounts(),
+            'counts' => $counts,
+            'colours' => $colours,
         ]);
     }
 

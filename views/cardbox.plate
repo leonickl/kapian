@@ -1,9 +1,10 @@
 {{ plug: 'head', title: 'Cardbox', links: [route('main') => 'Home'] }}
 
 <div class="column">
-    {{ each: $progresses as $progress => $count }}
-        <a href="{{ route('cardbox.level', level: $progress) }}" class="btn">
-            {{ $progressLabel($progress).' ('.$count.')' }}
+    {{ each: $counts as $progress => $count }}
+        <a href="{{ route('cardbox.level', level: $progress) }}"
+            class="btn" style="background-color: {{ $colours[$progress] }}">
+               {{ $progressLabel($progress).' ('.$count.')' }}
         </a>
     {{ each; }}
 </div>
