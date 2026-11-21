@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cfde4e3c781a5c9de8c58b5d93f7e223",
+    "content-hash": "fc6fea831a34e7818988ba8b6a3b2ecf",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -167,16 +167,16 @@
         },
         {
             "name": "leonickl/pxp-auth",
-            "version": "v0.3.2",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leonickl/pxp-auth.git",
-                "reference": "c913b1ddf9b8f21ad83e5865565f119882856502"
+                "reference": "60871ce5f5e3ac642b22ce5bd2c5703a2af1384d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leonickl/pxp-auth/zipball/c913b1ddf9b8f21ad83e5865565f119882856502",
-                "reference": "c913b1ddf9b8f21ad83e5865565f119882856502",
+                "url": "https://api.github.com/repos/leonickl/pxp-auth/zipball/60871ce5f5e3ac642b22ce5bd2c5703a2af1384d",
+                "reference": "60871ce5f5e3ac642b22ce5bd2c5703a2af1384d",
                 "shasum": ""
             },
             "require": {
@@ -208,10 +208,10 @@
             "description": "Authentication for PXP",
             "support": {
                 "issues": "https://github.com/leonickl/pxp-auth/issues",
-                "source": "https://github.com/leonickl/pxp-auth/tree/v0.3.2"
+                "source": "https://github.com/leonickl/pxp-auth/tree/v0.4.0"
             },
-            "time": "2026-09-24T10:08:01+00:00",
-            "published-time": "2026-09-24T10:08:14+00:00"
+            "time": "2026-11-21T10:47:58+00:00",
+            "published-time": "2026-11-21T10:48:34+00:00"
         },
         {
             "name": "leonickl/pxp-core",
